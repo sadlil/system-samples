@@ -12,6 +12,9 @@ two purpose of this repo is:
   1. Share some implementation level perspective of a system to learn from and improve ourselves,
   2. Reuse some code and structure to build other production ready projects.
 
+Ideally each project should be in its own repo, but we have decided to collect all the projects
+in one repo to make it easier to find and share.
+
 ## Completed Projects
   - None yet.
 
