@@ -1,0 +1,5 @@
+# https://docs.github.com/en/repositories/working-with-files/managing-files/customizing-how-changed-files-appear-on-github
+apis/go/**/*      linguist-generated=true
+apis/openapi/**/*  linguist-generated=true
+apis/openapi/specs.go     linguist-generated=true
+pkg/storage/mockstorage/* linguist-generated=true

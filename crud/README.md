@@ -7,5 +7,6 @@ A sample CRUD app with MySQL as storage engine. The system will demonstrate -
  - Example MySQL migration management.
  - Example for Golang ORM usage.
  - A sample Golang project structure.
+ - Includes examples of unit, e2e testing practices.
  - Containerizing and K8s deployment scripts of the system.
  - Includes Sample monitoring.

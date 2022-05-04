@@ -1,0 +1,31 @@
+proto_outdir = "./third_party/protos"
+
+[[dependencies]]
+  target = "github.com/envoyproxy/protoc-gen-validate/validate"
+  branch = "main"
+  path = "envoyproxy/validate"
+
+[[dependencies]]
+  target = "github.com/googleapis/googleapis/google/api"
+  branch = "master"
+  includes = [
+      "annotations.proto",
+      "http.proto",
+      "httpbody.proto",
+    ]
+  path = "googleapis/google/api"
+
+[[dependencies]]
+  target = "github.com/googleapis/googleapis/google/rpc"
+  branch = "master"
+  includes = [
+      "code.proto",
+      "error_details.proto",
+      "status.proto",
+    ]
+  path = "googleapis/google/rpc"
+
+[[dependencies]]
+  target = "github.com/grpc-ecosystem/grpc-gateway/protoc-gen-openapiv2/options"
+  branch = "master"
+  path = "protoc-gen-openapiv2/options"

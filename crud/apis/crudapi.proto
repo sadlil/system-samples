@@ -1,0 +1,40 @@
+syntax = "proto3";
+
+option go_package = "./crudapi";
+
+package crudapi;
+
+import "validate/validate.proto";
+import "protoc-gen-openapiv2/options/annotations.proto";
+
+message ListOptions {
+  int32 skip = 1 [(validate.rules).int32.gte = 0];
+  int32 limit = 2 [(validate.rules).int32.gte = 1];
+  string orderBy = 4;
+  bool orderByDesc = 5;
+}
+
+message ErrorDetails {
+  int32 statusCode = 1;
+  string internalCode = 2;
+  string message = 3;
+  string suggestion = 4;
+}
+
+// Following are options for Swagger generations.
+option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_swagger) = {
+  info: {
+    title: "Sample CRUD APIs",
+    version: "v0.1.0";
+    contact: {
+      email: "kzirtm@gmail.com";
+    };
+  };
+  host: "http://localhost:6999";
+  external_docs: {
+    url: "https://github.com/sadlil/samples/tree/main/crud";
+  }
+  schemes: HTTP;
+  consumes: "application/json";
+  produces: "application/json";
+};
