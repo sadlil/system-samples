@@ -1,4 +1,4 @@
-a# Binaries for programs and plugins
+# Binaries for programs and plugins
 *.exe
 *.exe~
 *.dll
@@ -12,4 +12,5 @@ a# Binaries for programs and plugins
 *.out
 
 # Dependency directories (remove the comment below to include it)
-# vendor/
+vendor/
+.idea/

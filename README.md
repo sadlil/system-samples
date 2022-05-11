@@ -1,4 +1,4 @@
-# Sample Projects
+# System Design Project Sample 
 Collection of example System Design projects.
 
 ## What is it?
