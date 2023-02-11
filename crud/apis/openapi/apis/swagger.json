@@ -7,6 +7,11 @@
       "email": "kzirtm@gmail.com"
     }
   },
+  "tags": [
+    {
+      "name": "TodoService"
+    }
+  ],
   "host": "http://localhost:6999",
   "schemes": [
     "http"
@@ -17,7 +22,211 @@
   "produces": [
     "application/json"
   ],
-  "paths": {},
+  "paths": {
+    "/api/v1/todo": {
+      "post": {
+        "summary": "CreateTodo RPC creates a new Todo object.",
+        "operationId": "TodoService_CreateTodo",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1CreateTodoResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/v1CreateTodoRequest"
+            }
+          }
+        ],
+        "tags": [
+          "TodoService"
+        ]
+      }
+    },
+    "/api/v1/todo/{id}": {
+      "delete": {
+        "summary": "The DeleteTodo RPC deletes a Todo object based on its ID.",
+        "operationId": "TodoService_DeleteTodo",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "properties": {}
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "TodoService"
+        ]
+      },
+      "put": {
+        "summary": "UpdateTodo RPC updates an existing Todo object.",
+        "operationId": "TodoService_UpdateTodo",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1UpdateTodoResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "payload": {
+                  "$ref": "#/definitions/v1Todo"
+                }
+              }
+            }
+          }
+        ],
+        "tags": [
+          "TodoService"
+        ]
+      }
+    },
+    "/api/v1/todos": {
+      "get": {
+        "summary": "ListTodo RPC retrieves a list of Todo objects.",
+        "operationId": "TodoService_ListTodo",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1ListTodoResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "type": "string",
+            "format": "int64"
+          },
+          {
+            "name": "offset",
+            "in": "query",
+            "required": false,
+            "type": "string",
+            "format": "int64"
+          },
+          {
+            "name": "sortOrder",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "status",
+            "in": "query",
+            "required": false,
+            "type": "string",
+            "enum": [
+              "UNKNOWN",
+              "PENDING",
+              "IN_PROGRESS",
+              "DONE",
+              "DELETED",
+              "ABANDONED"
+            ],
+            "default": "UNKNOWN"
+          },
+          {
+            "name": "priority",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "TodoService"
+        ]
+      }
+    },
+    "/api/v1/todos/{id}": {
+      "get": {
+        "summary": "GetTodo RPC retrieves a single Todo object based on its ID.",
+        "operationId": "TodoService_GetTodo",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1GetTodoResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "TodoService"
+        ]
+      }
+    }
+  },
   "definitions": {
     "protobufAny": {
       "type": "object",
@@ -43,6 +252,96 @@
           "items": {
             "$ref": "#/definitions/protobufAny"
           }
+        }
+      }
+    },
+    "v1CreateTodoRequest": {
+      "type": "object",
+      "properties": {
+        "todo": {
+          "$ref": "#/definitions/v1Todo"
+        }
+      }
+    },
+    "v1CreateTodoResponse": {
+      "type": "object",
+      "properties": {
+        "todo": {
+          "$ref": "#/definitions/v1Todo"
+        }
+      }
+    },
+    "v1GetTodoResponse": {
+      "type": "object",
+      "properties": {
+        "todo": {
+          "$ref": "#/definitions/v1Todo"
+        }
+      }
+    },
+    "v1ListTodoResponse": {
+      "type": "object",
+      "properties": {
+        "todos": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/v1Todo"
+          }
+        }
+      }
+    },
+    "v1Todo": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "uuid uniquely represents any Todo object in the storage. The value of \nid will be generated by the system while the todo is being crated."
+        },
+        "name": {
+          "type": "string",
+          "description": "User provided display name of the todo."
+        },
+        "description": {
+          "type": "string"
+        },
+        "priority": {
+          "type": "string",
+          "description": "User defined priority of the TODO, can only be set a string value of P(0-4)."
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Created at timestamp, represents when the entry is being created by the user."
+        },
+        "deadline": {
+          "type": "string",
+          "description": "User defined deadline specified in duration, indicates the time by when the task\nshould be completed."
+        },
+        "status": {
+          "$ref": "#/definitions/v1TodoStatus",
+          "description": "Status of the todo."
+        }
+      },
+      "description": "Todo message represents a Todo object."
+    },
+    "v1TodoStatus": {
+      "type": "string",
+      "enum": [
+        "UNKNOWN",
+        "PENDING",
+        "IN_PROGRESS",
+        "DONE",
+        "DELETED",
+        "ABANDONED"
+      ],
+      "default": "UNKNOWN",
+      "description": "TodoStatus enum defines the possible states of a Todo object."
+    },
+    "v1UpdateTodoResponse": {
+      "type": "object",
+      "properties": {
+        "todo": {
+          "$ref": "#/definitions/v1Todo"
         }
       }
     }
