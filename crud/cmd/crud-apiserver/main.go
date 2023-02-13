@@ -9,6 +9,7 @@ import (
 	"sadlil.com/samples/crud/apis/go/crudapi"
 	"sadlil.com/samples/crud/apis/openapi"
 	"sadlil.com/samples/crud/pkg/service"
+	"sadlil.com/samples/crud/pkg/storage"
 	"sadlil.com/samples/golib/application"
 	"sadlil.com/samples/golib/net/serverframework"
 	"sadlil.com/samples/golib/net/statserver"
@@ -22,6 +23,14 @@ func main() {
 	application.Init()
 
 	ctx, cancel := context.WithCancel(context.Background())
+
+	err := storage.Init(storage.StorageConfig{
+		Type:     storage.SqLite,
+		Database: "/tmp/samples/crud/todo.db",
+	})
+	if err != nil {
+		glog.Fatalf("Failed to initialize database, reason: %v", err)
+	}
 
 	// Intialize servers.
 	srv := serverframework.New(
@@ -47,7 +56,7 @@ func main() {
 	srv.RegisterGRPC(&crudapi.TodoService_ServiceDesc, service.NewToDoService())
 	srv.RegisterHTTP(crudapi.RegisterTodoServiceHandler)
 
-	err := srv.Start(ctx)
+	err = srv.Start(ctx)
 	if err != nil {
 		glog.Fatalf("Failed to start server, reason: %v", err)
 	}

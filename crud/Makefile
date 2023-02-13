@@ -32,7 +32,7 @@ lint:
 .PHONE: dep
 dep:
 	go mod download
-	go mod tidy
+	go mod tidy -e
 
 .PHONY: dep.proto
 dep-proto:

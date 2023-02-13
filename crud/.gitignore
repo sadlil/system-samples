@@ -6,6 +6,8 @@ bin/
 vendor/
 apis/js/apis/node_modules/
 
+*/*.db
+
 # Binaries for programs and plugins
 *.exe
 *.exe~

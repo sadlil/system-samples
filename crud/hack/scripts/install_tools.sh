@@ -60,7 +60,8 @@ function install_common_tools() {
       golang.org/x/tools/cmd/goimports \
       github.com/vektra/mockery/v2/... \
       github.com/go-bindata/go-bindata/... \
-      github.com/stormcat24/protodep/...
+      github.com/stormcat24/protodep/... \
+      github.com/rubenv/sql-migrate/...
 }
 
 os=$(uname)
