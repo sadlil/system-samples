@@ -26,14 +26,14 @@ service TodoService {
   // ListTodo RPC retrieves a list of Todo objects.
   rpc ListTodo(ListTodoRequest) returns (ListTodoResponse) {
     option (google.api.http) = {
-      get: "/api/v1/todos"
+      get: "/api/v1/todo"
     };
   }
 
   // GetTodo RPC retrieves a single Todo object based on its ID.
   rpc GetTodo(GetTodoRequest) returns (GetTodoResponse) {
     option (google.api.http) = {
-      get: "/api/v1/todos/{id}"
+      get: "/api/v1/todo/{id}"
     };
   }
 

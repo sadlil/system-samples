@@ -310,7 +310,7 @@ func RegisterTodoServiceHandlerServer(ctx context.Context, mux *runtime.ServeMux
 		ctx = grpc.NewContextWithServerTransportStream(ctx, &stream)
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
-		ctx, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/crudapi.v1.TodoService/ListTodo", runtime.WithHTTPPathPattern("/api/v1/todos"))
+		ctx, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/crudapi.v1.TodoService/ListTodo", runtime.WithHTTPPathPattern("/api/v1/todo"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -334,7 +334,7 @@ func RegisterTodoServiceHandlerServer(ctx context.Context, mux *runtime.ServeMux
 		ctx = grpc.NewContextWithServerTransportStream(ctx, &stream)
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
-		ctx, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/crudapi.v1.TodoService/GetTodo", runtime.WithHTTPPathPattern("/api/v1/todos/{id}"))
+		ctx, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/crudapi.v1.TodoService/GetTodo", runtime.WithHTTPPathPattern("/api/v1/todo/{id}"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -466,7 +466,7 @@ func RegisterTodoServiceHandlerClient(ctx context.Context, mux *runtime.ServeMux
 		defer cancel()
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
-		ctx, err = runtime.AnnotateContext(ctx, mux, req, "/crudapi.v1.TodoService/ListTodo", runtime.WithHTTPPathPattern("/api/v1/todos"))
+		ctx, err = runtime.AnnotateContext(ctx, mux, req, "/crudapi.v1.TodoService/ListTodo", runtime.WithHTTPPathPattern("/api/v1/todo"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -487,7 +487,7 @@ func RegisterTodoServiceHandlerClient(ctx context.Context, mux *runtime.ServeMux
 		defer cancel()
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
-		ctx, err = runtime.AnnotateContext(ctx, mux, req, "/crudapi.v1.TodoService/GetTodo", runtime.WithHTTPPathPattern("/api/v1/todos/{id}"))
+		ctx, err = runtime.AnnotateContext(ctx, mux, req, "/crudapi.v1.TodoService/GetTodo", runtime.WithHTTPPathPattern("/api/v1/todo/{id}"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -551,9 +551,9 @@ func RegisterTodoServiceHandlerClient(ctx context.Context, mux *runtime.ServeMux
 var (
 	pattern_TodoService_CreateTodo_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2}, []string{"api", "v1", "todo"}, ""))
 
-	pattern_TodoService_ListTodo_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2}, []string{"api", "v1", "todos"}, ""))
+	pattern_TodoService_ListTodo_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2}, []string{"api", "v1", "todo"}, ""))
 
-	pattern_TodoService_GetTodo_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 1, 0, 4, 1, 5, 3}, []string{"api", "v1", "todos", "id"}, ""))
+	pattern_TodoService_GetTodo_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 1, 0, 4, 1, 5, 3}, []string{"api", "v1", "todo", "id"}, ""))
 
 	pattern_TodoService_UpdateTodo_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 1, 0, 4, 1, 5, 3}, []string{"api", "v1", "todo", "id"}, ""))
 

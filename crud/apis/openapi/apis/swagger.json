@@ -24,6 +24,70 @@
   ],
   "paths": {
     "/api/v1/todo": {
+      "get": {
+        "summary": "ListTodo RPC retrieves a list of Todo objects.",
+        "operationId": "TodoService_ListTodo",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1ListTodoResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "type": "string",
+            "format": "int64"
+          },
+          {
+            "name": "offset",
+            "in": "query",
+            "required": false,
+            "type": "string",
+            "format": "int64"
+          },
+          {
+            "name": "sortOrder",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "status",
+            "in": "query",
+            "required": false,
+            "type": "string",
+            "enum": [
+              "UNKNOWN",
+              "PENDING",
+              "IN_PROGRESS",
+              "DONE",
+              "DELETED",
+              "ABANDONED"
+            ],
+            "default": "UNKNOWN"
+          },
+          {
+            "name": "priority",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "TodoService"
+        ]
+      },
       "post": {
         "summary": "CreateTodo RPC creates a new Todo object.",
         "operationId": "TodoService_CreateTodo",
@@ -57,6 +121,35 @@
       }
     },
     "/api/v1/todo/{id}": {
+      "get": {
+        "summary": "GetTodo RPC retrieves a single Todo object based on its ID.",
+        "operationId": "TodoService_GetTodo",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1GetTodoResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "TodoService"
+        ]
+      },
       "delete": {
         "summary": "The DeleteTodo RPC deletes a Todo object based on its ID.",
         "operationId": "TodoService_DeleteTodo",
@@ -122,103 +215,6 @@
                 }
               }
             }
-          }
-        ],
-        "tags": [
-          "TodoService"
-        ]
-      }
-    },
-    "/api/v1/todos": {
-      "get": {
-        "summary": "ListTodo RPC retrieves a list of Todo objects.",
-        "operationId": "TodoService_ListTodo",
-        "responses": {
-          "200": {
-            "description": "A successful response.",
-            "schema": {
-              "$ref": "#/definitions/v1ListTodoResponse"
-            }
-          },
-          "default": {
-            "description": "An unexpected error response.",
-            "schema": {
-              "$ref": "#/definitions/rpcStatus"
-            }
-          }
-        },
-        "parameters": [
-          {
-            "name": "limit",
-            "in": "query",
-            "required": false,
-            "type": "string",
-            "format": "int64"
-          },
-          {
-            "name": "offset",
-            "in": "query",
-            "required": false,
-            "type": "string",
-            "format": "int64"
-          },
-          {
-            "name": "sortOrder",
-            "in": "query",
-            "required": false,
-            "type": "string"
-          },
-          {
-            "name": "status",
-            "in": "query",
-            "required": false,
-            "type": "string",
-            "enum": [
-              "UNKNOWN",
-              "PENDING",
-              "IN_PROGRESS",
-              "DONE",
-              "DELETED",
-              "ABANDONED"
-            ],
-            "default": "UNKNOWN"
-          },
-          {
-            "name": "priority",
-            "in": "query",
-            "required": false,
-            "type": "string"
-          }
-        ],
-        "tags": [
-          "TodoService"
-        ]
-      }
-    },
-    "/api/v1/todos/{id}": {
-      "get": {
-        "summary": "GetTodo RPC retrieves a single Todo object based on its ID.",
-        "operationId": "TodoService_GetTodo",
-        "responses": {
-          "200": {
-            "description": "A successful response.",
-            "schema": {
-              "$ref": "#/definitions/v1GetTodoResponse"
-            }
-          },
-          "default": {
-            "description": "An unexpected error response.",
-            "schema": {
-              "$ref": "#/definitions/rpcStatus"
-            }
-          }
-        },
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "type": "string"
           }
         ],
         "tags": [
