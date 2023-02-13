@@ -1,4 +1,4 @@
-# System Design Project Sample 
+# System Design Project Sample
 
 Collection of example System Design projects.
 
@@ -6,7 +6,7 @@ Collection of example System Design projects.
 
 In real life we work on different projects, but rarely we have the ability to share them
 publicly to learn from each others. There are lots of system design articles/books/videos
-but most of them doesn't come with implementations to share the underlying details. 
+but most of them doesn't come with implementations to share the underlying details.
 
 This repo is here to collect some tin-can projects that are far from production ready, but displays
 and shares some perspective of a scalable production system with implementation details. The
@@ -22,6 +22,12 @@ in one repo to make it easier to find and share.
 
 - None yet.
 
+## Libraries
+
+- [golib](golib/README.md) - Collection of libraries developed for organizing and
+reusing througout multiple projects in this repository. Some of these libraries are
+uses in production in some capacity.
+
 ## WIP Projects
 
 - [CRUD](crud/README.md) - A sample gRPC and MySQL backed CRUD application with a client cli.
@@ -35,4 +41,3 @@ Displays some Golang common practices, and monitoring techniques.
 ## Contributions
 
 If you would like to contribute to the repo, or to own a project, please open a pull request.
-

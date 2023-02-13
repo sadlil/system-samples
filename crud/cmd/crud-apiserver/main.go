@@ -55,6 +55,8 @@ func main() {
 	// Wait until Application recives a Terminate signals.
 	// Context should be canceld and, srv.Stop will be called to gracefully
 	// shutdown the server.
-	application.ShutdownOnInterrupt(cancel)
-	_ = srv.Stop(ctx)
+	application.ShutdownOnInterrupt(func() {
+		_ = srv.Stop(ctx)
+		cancel()
+	})
 }
