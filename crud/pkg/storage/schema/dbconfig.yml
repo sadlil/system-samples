@@ -1,8 +1,8 @@
 development:
   dialect: sqlite3
-  datasource: todo_service.db
-  dir: .
+  datasource: /tmp/samples/crud/todo.db
+  dir: /tmp/samples/crud
 test:
   dialect: mysql
-  datasource: root:pass@tcp(localhost:3306)/todo_service
+  datasource: root:root@tcp(localhost:3306)/todo_service?parseTime=true
   dir: .

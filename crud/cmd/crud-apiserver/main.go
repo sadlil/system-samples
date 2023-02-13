@@ -16,7 +16,16 @@ import (
 )
 
 var (
+	serverGRPCAddr = pflag.StringP("server_grpc_addr", "g", ":6001", "gRPC Server Address")
+	serverHTTPAddr = pflag.StringP("server_http_addr", "h", ":6002", "HTTP Server Address")
+
 	monitoringAddr = pflag.StringP("monitoring_addr", "m", ":6443", "Address to bind the monitoring server listner")
+
+	storageType         = pflag.StringP("storage_type", "s", "mysql", "Database store for the service")
+	storageDatabasePath = pflag.StringP("storage_db_path", "d", "todo_service", "Database name or db path for the service")
+	storageAddress      = pflag.StringP("storage_addr", "a", "localhost:3306", "Database address")
+	storageUsername     = pflag.StringP("storage_user", "u", "root", "Database storage username")
+	storagePassword     = pflag.StringP("storage_pass", "p", "root", "Database storage password")
 )
 
 func main() {
@@ -25,8 +34,11 @@ func main() {
 	ctx, cancel := context.WithCancel(context.Background())
 
 	err := storage.Init(storage.StorageConfig{
-		Type:     storage.SqLite,
-		Database: "/tmp/samples/crud/todo.db",
+		Type:     storage.StorageType(*storageType),
+		Database: *storageDatabasePath,
+		Address:  *storageAddress,
+		Username: *storageUsername,
+		Password: *storagePassword,
 	})
 	if err != nil {
 		glog.Fatalf("Failed to initialize database, reason: %v", err)
@@ -35,8 +47,8 @@ func main() {
 	// Intialize servers.
 	srv := serverframework.New(
 		serverframework.Name("curdapi.v1.TodoService"),
-		serverframework.GRPCAddress(":6001"),
-		serverframework.HTTPAddress(":6002"),
+		serverframework.GRPCAddress(*serverGRPCAddr),
+		serverframework.HTTPAddress(*serverHTTPAddr),
 		serverframework.EnableRequestValidation(),
 		serverframework.EnableRequestCORS(),
 		serverframework.WithSwaggerAssetFS(&assetfs.AssetFS{

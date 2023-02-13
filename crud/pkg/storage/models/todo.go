@@ -23,7 +23,7 @@ type Todo struct {
 }
 
 func (Todo) TableName() string {
-	return "todos"
+	return "todo"
 }
 
 //go:generate mockery --name=TodoQuery --filename=todo_mock.go --outpkg=mockstorage --output=../mockstorage --quiet --testonly
