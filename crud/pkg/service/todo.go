@@ -30,8 +30,8 @@ func NewToDoService() *TodoServiceImpl {
 func (t *TodoServiceImpl) CreateTodo(ctx context.Context, req *crudapi.CreateTodoRequest) (*crudapi.CreateTodoResponse, error) {
 	todo, err := t.store.Todo().Create(ctx, req.GetTodo())
 	if err != nil {
-		glog.Error("db.Create failed, reason %v", err)
-		return nil, status.Errorf(codes.Internal, "db.GetByID failed: %v", err)
+		glog.Errorf("db.Create failed, reason %v", err)
+		return nil, status.Errorf(codes.Internal, "db.Create failed: %v", err)
 	}
 	return &crudapi.CreateTodoResponse{
 		Todo: todo,
@@ -44,8 +44,8 @@ func (t *TodoServiceImpl) ListTodo(ctx context.Context, req *crudapi.ListTodoReq
 		if errors.Is(err, gorm.ErrRecordNotFound) {
 			return nil, status.Errorf(codes.NotFound, "todo not found: %v", err)
 		}
-		glog.Error("db.List failed, reason %v", err)
-		return nil, status.Errorf(codes.Internal, "db.GetByID failed: %v", err)
+		glog.Errorf("db.List failed, reason %v", err)
+		return nil, status.Errorf(codes.Internal, "db.List failed: %v", err)
 	}
 	return &crudapi.ListTodoResponse{
 		Todos: todo,
@@ -58,7 +58,7 @@ func (t *TodoServiceImpl) GetTodo(ctx context.Context, req *crudapi.GetTodoReque
 		if errors.Is(err, gorm.ErrRecordNotFound) {
 			return nil, status.Errorf(codes.NotFound, "todo not found: %v", err)
 		}
-		glog.Error("db.GetByID failed, reason %v", err)
+		glog.Errorf("db.GetByID failed, reason %v", err)
 		return nil, status.Errorf(codes.Internal, "db.GetByID failed: %v", err)
 	}
 	return &crudapi.GetTodoResponse{
@@ -70,8 +70,8 @@ func (t *TodoServiceImpl) UpdateTodo(ctx context.Context, req *crudapi.UpdateTod
 	req.Payload.Id = req.Id
 	todo, err := t.store.Todo().Update(ctx, req.GetPayload())
 	if err != nil {
-		glog.Error("db.Update failed, reason %v", err)
-		return nil, status.Errorf(codes.Internal, "db.GetByID failed: %v", err)
+		glog.Errorf("db.Update failed, reason %v", err)
+		return nil, status.Errorf(codes.Internal, "db.Update failed: %v", err)
 	}
 	return &crudapi.UpdateTodoResponse{
 		Todo: todo,
@@ -81,8 +81,8 @@ func (t *TodoServiceImpl) UpdateTodo(ctx context.Context, req *crudapi.UpdateTod
 func (t *TodoServiceImpl) DeleteTodo(ctx context.Context, req *crudapi.DeleteTodoRequest) (*emptypb.Empty, error) {
 	err := t.store.Todo().Delete(ctx, req.GetId())
 	if err != nil {
-		glog.Error("db.Delete failed, reason %v", err)
-		return nil, status.Errorf(codes.Internal, "db.GetByID failed: %v", err)
+		glog.Errorf("db.Delete failed, reason %v", err)
+		return nil, status.Errorf(codes.Internal, "db.Delete failed: %v", err)
 	}
 	return &emptypb.Empty{}, nil
 }

@@ -9,12 +9,14 @@ import (
 	"strings"
 
 	"github.com/golang/glog"
+	opentracing "github.com/grpc-ecosystem/go-grpc-middleware/tracing/opentracing"
 	grpcprom "github.com/grpc-ecosystem/go-grpc-prometheus"
 	"github.com/grpc-ecosystem/grpc-gateway/v2/runtime"
 	assetfs "github.com/philips/go-bindata-assetfs"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials/insecure"
 	"google.golang.org/protobuf/encoding/protojson"
+	"sadlil.com/samples/golib/net/interceptors"
 	"sadlil.com/samples/golib/net/serverframework/rpcregistry"
 	"sadlil.com/samples/golib/net/statserver"
 )
@@ -48,8 +50,15 @@ func New(opts ...Option) *Server {
 	s := &Server{
 		StatServer:         statserver.New(),
 		RPCServiceRegistry: rpcregistry.New(),
-		UnaryInterceptors:  []grpc.UnaryServerInterceptor{grpcprom.UnaryServerInterceptor},
-		StreamInterceptors: []grpc.StreamServerInterceptor{grpcprom.StreamServerInterceptor},
+		UnaryInterceptors: []grpc.UnaryServerInterceptor{
+			opentracing.UnaryServerInterceptor(),
+			grpcprom.UnaryServerInterceptor,
+			interceptors.UnaryRequestLogger(),
+		},
+		StreamInterceptors: []grpc.StreamServerInterceptor{
+			opentracing.StreamServerInterceptor(),
+			grpcprom.StreamServerInterceptor,
+		},
 	}
 
 	for _, opt := range opts {

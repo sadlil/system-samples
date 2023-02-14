@@ -26,6 +26,7 @@ func Init() {
 		return
 	}
 
+	glog.Infof("Initializing application")
 	atomic.StoreUint32(&initialized, 1)
 	once.Do(func() {
 		pflag.CommandLine.AddGoFlagSet(flag.CommandLine)
@@ -46,8 +47,10 @@ func RegisterInit(f func()) {
 }
 
 func ShutdownOnInterrupt(shutdownFunc func()) {
+	// Flush everything still pending for the log in output
+	defer glog.Flush()
+
 	recoverFromPanic()
-	glog.Flush()
 
 	stop := make(chan os.Signal, 1)
 	signal.Notify(stop,

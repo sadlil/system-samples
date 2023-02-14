@@ -3,6 +3,7 @@ package persistent
 import (
 	"fmt"
 
+	"github.com/golang/glog"
 	"gorm.io/driver/mysql"
 	"gorm.io/driver/sqlite"
 	"gorm.io/gorm"
@@ -59,6 +60,7 @@ func New(opts ...Option) (*db, error) {
 	var err error
 	switch db.dbtype {
 	case "mysql":
+		glog.Infof("Creating mysql database connection for address %v", db.address)
 		dsn := fmt.Sprintf("%v:%v@tcp(%v)/%v?charset=utf8&parseTime=True", db.username, db.password, db.address, db.database)
 		db.gormDB, err = gorm.Open(
 			mysql.Open(dsn),
@@ -69,7 +71,9 @@ func New(opts ...Option) (*db, error) {
 		if err != nil {
 			return nil, err
 		}
+		glog.Infof("mysql connection ready.")
 	case "sqlite":
+		glog.Infof("Creating sqlite database connection for database %v", db.address)
 		db.gormDB, err = gorm.Open(
 			sqlite.Open(db.database),
 			&gorm.Config{
@@ -79,6 +83,7 @@ func New(opts ...Option) (*db, error) {
 		if err != nil {
 			return nil, err
 		}
+		glog.Infof("sqlite connection ready.")
 	default:
 		return nil, fmt.Errorf("unsupported database type requested")
 	}

@@ -3,6 +3,8 @@ package storage
 import (
 	"sync"
 
+	"github.com/golang/glog"
+	"sadlil.com/samples/crud/pkg/storage/memory"
 	"sadlil.com/samples/crud/pkg/storage/models"
 	"sadlil.com/samples/crud/pkg/storage/persistent"
 )
@@ -35,6 +37,7 @@ func Init(cfg StorageConfig) error {
 	once.Do(func() {
 		switch cfg.Type {
 		case MySQL, SqLite:
+			glog.Infof("Initializing persistent database %s", cfg.Type)
 			internalDB, err = persistent.New(
 				persistent.WithDBType(string(cfg.Type)),
 				persistent.WithAddress(cfg.Address),
@@ -45,7 +48,8 @@ func Init(cfg StorageConfig) error {
 				return
 			}
 		case Memory:
-			// Not implemented.
+			glog.Infof("Initializing in memory storage")
+			internalDB, _ = memory.New()
 		}
 
 	})

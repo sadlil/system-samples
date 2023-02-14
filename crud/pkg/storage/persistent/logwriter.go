@@ -11,8 +11,9 @@ import (
 
 func newAppLogger() logger.Interface {
 	return logger.New(&appLogWriter{}, logger.Config{
-		SlowThreshold: 200 * time.Millisecond,
-		LogLevel:      logger.Warn,
+		SlowThreshold:        200 * time.Millisecond,
+		LogLevel:             logger.Info,
+		ParameterizedQueries: true,
 	})
 }
 
