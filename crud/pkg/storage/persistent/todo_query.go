@@ -38,7 +38,7 @@ func (t *todoQueryImpl) Create(ctx context.Context, todo *crudapi.Todo) (*crudap
 
 func (t *todoQueryImpl) List(ctx context.Context, offset, limit int) ([]*crudapi.Todo, error) {
 	var todos []*models.Todo
-	tx := t.gormDB.WithContext(ctx).Find(&todos).Offset(offset).Limit(limit).Order("created_at DESC")
+	tx := t.gormDB.WithContext(ctx).Offset(offset).Limit(limit).Order("created_at DESC").Find(&todos)
 	if tx.Error != nil {
 		return nil, tx.Error
 	}

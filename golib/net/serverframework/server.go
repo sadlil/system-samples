@@ -16,7 +16,6 @@ import (
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials/insecure"
 	"google.golang.org/protobuf/encoding/protojson"
-	"sadlil.com/samples/golib/net/interceptors"
 	"sadlil.com/samples/golib/net/serverframework/rpcregistry"
 	"sadlil.com/samples/golib/net/statserver"
 )
@@ -53,7 +52,6 @@ func New(opts ...Option) *Server {
 		UnaryInterceptors: []grpc.UnaryServerInterceptor{
 			opentracing.UnaryServerInterceptor(),
 			grpcprom.UnaryServerInterceptor,
-			interceptors.UnaryRequestLogger(),
 		},
 		StreamInterceptors: []grpc.StreamServerInterceptor{
 			opentracing.StreamServerInterceptor(),

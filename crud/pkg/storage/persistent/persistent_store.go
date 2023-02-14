@@ -2,11 +2,14 @@ package persistent
 
 import (
 	"fmt"
+	"strings"
+	"time"
 
 	"github.com/golang/glog"
 	"gorm.io/driver/mysql"
 	"gorm.io/driver/sqlite"
 	"gorm.io/gorm"
+	"gorm.io/gorm/logger"
 )
 
 type db struct {
@@ -17,33 +20,6 @@ type db struct {
 	maxIdleCoos, maxOpenConns int
 
 	gormDB *gorm.DB
-}
-
-type Option func(*db)
-
-func WithDBType(t string) Option {
-	return func(d *db) {
-		d.dbtype = t
-	}
-}
-
-func WithAddress(a string) Option {
-	return func(d *db) {
-		d.address = a
-	}
-}
-
-func DatabaseName(dn string) Option {
-	return func(d *db) {
-		d.database = dn
-	}
-}
-
-func WithUsernamePassword(u, p string) Option {
-	return func(d *db) {
-		d.username = u
-		d.password = p
-	}
 }
 
 func New(opts ...Option) (*db, error) {
@@ -94,4 +70,48 @@ func New(opts ...Option) (*db, error) {
 		sqlDB.SetMaxOpenConns(db.maxOpenConns)
 	}
 	return db, nil
+}
+
+type Option func(*db)
+
+func WithDBType(t string) Option {
+	return func(d *db) {
+		d.dbtype = t
+	}
+}
+
+func WithAddress(a string) Option {
+	return func(d *db) {
+		d.address = a
+	}
+}
+
+func DatabaseName(dn string) Option {
+	return func(d *db) {
+		d.database = dn
+	}
+}
+
+func WithUsernamePassword(u, p string) Option {
+	return func(d *db) {
+		d.username = u
+		d.password = p
+	}
+}
+
+func newAppLogger() logger.Interface {
+	return logger.New(&appLogWriter{}, logger.Config{
+		SlowThreshold:        200 * time.Millisecond,
+		LogLevel:             logger.Info,
+		ParameterizedQueries: true,
+	})
+}
+
+type appLogWriter struct{}
+
+func (*appLogWriter) Printf(s string, v ...interface{}) {
+	s = strings.Replace(s, "\n", " ", -1)
+	sourceFile := v[0].(string)
+	v[0] = sourceFile[strings.LastIndex(sourceFile, "/")+1:]
+	glog.InfoDepth(1, fmt.Sprintf(s, v...))
 }

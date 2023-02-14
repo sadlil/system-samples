@@ -20,7 +20,14 @@ in one repo to make it easier to find and share.
 
 ## Completed Projects
 
-- None yet.
+- [CRUD](crud/README.md): Sample TODO application backed by grpc, http gateway proxy and storage.
+  - Displays Golang common practices, testing and server monitoring techniques.
+  - Example code architecture. Clear distingtion between service handler and storage backends.
+  - Supports plugable storage backends for any of - mysql, sqlite or inmemory.
+  - Exposes healthz, statusz, pprof, promethus metrics endpoints.
+  - Protocol buffer based API defination and request validation.
+  - Supports SQL migration via sql-migrate for mysql, sqlite.
+  - Caching mechanisms via radis for persistant storages namely mysql.
 
 ## Libraries
 
@@ -28,10 +35,8 @@ in one repo to make it easier to find and share.
 reusing througout multiple projects in this repository. Some of these libraries are
 uses in production in some capacity.
 
-## WIP Projects
+## Planned Projects
 
-- [CRUD](crud/README.md) - A sample gRPC and MySQL backed CRUD application with a client cli.
-Displays some Golang common practices, and monitoring techniques.
 - [GoLink](golink/README.md) - Example Scalable URL shortener service.
 - [Gossip](gossip/README.md) - Chat application with cli client.
 - [LogRaft](lograft/README.md) - Distributed Log delivery service.

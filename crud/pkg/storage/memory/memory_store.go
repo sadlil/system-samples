@@ -85,7 +85,11 @@ func (t *store) List(ctx context.Context, offset, limit int) ([]*crudapi.Todo, e
 		return resp[i].GetCreatedAt().AsTime().UnixNano() > resp[j].GetCreatedAt().AsTime().UnixNano()
 	})
 
-	if offset > 0 {
+	if offset > len(resp) {
+		return nil, fmt.Errorf("err: no data")
+	}
+
+	if offset > 0 && len(resp) >= offset {
 		resp = resp[offset:]
 	}
 

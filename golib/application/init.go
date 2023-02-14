@@ -26,12 +26,12 @@ func Init() {
 		return
 	}
 
-	glog.Infof("Initializing application")
 	atomic.StoreUint32(&initialized, 1)
 	once.Do(func() {
 		pflag.CommandLine.AddGoFlagSet(flag.CommandLine)
 		pflag.Parse()
 
+		glog.Infof("Initializing application")
 		for _, f := range initFuncs {
 			f()
 		}
