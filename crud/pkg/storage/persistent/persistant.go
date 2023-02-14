@@ -1,4 +1,4 @@
-package persistant
+package persistent
 
 import (
 	"fmt"
@@ -60,12 +60,22 @@ func New(opts ...Option) (*db, error) {
 	switch db.dbtype {
 	case "mysql":
 		dsn := fmt.Sprintf("%v:%v@tcp(%v)/%v?charset=utf8&parseTime=True", db.username, db.password, db.address, db.database)
-		db.gormDB, err = gorm.Open(mysql.Open(dsn))
+		db.gormDB, err = gorm.Open(
+			mysql.Open(dsn),
+			&gorm.Config{
+				Logger: newAppLogger(),
+			},
+		)
 		if err != nil {
 			return nil, err
 		}
 	case "sqlite":
-		db.gormDB, err = gorm.Open(sqlite.Open(db.database))
+		db.gormDB, err = gorm.Open(
+			sqlite.Open(db.database),
+			&gorm.Config{
+				Logger: newAppLogger(),
+			},
+		)
 		if err != nil {
 			return nil, err
 		}

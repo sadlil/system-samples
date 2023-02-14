@@ -7,7 +7,7 @@ CREATE TABLE `todo` (
     `name` text,
     `description` text,
     `priority` text,
-    `duration` bigint,
+    `deadline` bigint,
     `status` varchar(10),
     `created_at` datetime,
     `updated_at` datetime,

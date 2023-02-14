@@ -4,7 +4,7 @@ import (
 	"sync"
 
 	"sadlil.com/samples/crud/pkg/storage/models"
-	"sadlil.com/samples/crud/pkg/storage/persistant"
+	"sadlil.com/samples/crud/pkg/storage/persistent"
 )
 
 type StorageType string
@@ -35,11 +35,11 @@ func Init(cfg StorageConfig) error {
 	once.Do(func() {
 		switch cfg.Type {
 		case MySQL, SqLite:
-			internalDB, err = persistant.New(
-				persistant.WithDBType(string(cfg.Type)),
-				persistant.WithAddress(cfg.Address),
-				persistant.DatabaseName(cfg.Database),
-				persistant.WithUsernamePassword(cfg.Username, cfg.Password),
+			internalDB, err = persistent.New(
+				persistent.WithDBType(string(cfg.Type)),
+				persistent.WithAddress(cfg.Address),
+				persistent.DatabaseName(cfg.Database),
+				persistent.WithUsernamePassword(cfg.Username, cfg.Password),
 			)
 			if err != nil {
 				return

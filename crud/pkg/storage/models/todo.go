@@ -28,5 +28,9 @@ func (Todo) TableName() string {
 
 //go:generate mockery --name=TodoQuery --filename=todo_mock.go --outpkg=mockstorage --output=../mockstorage --quiet --testonly
 type TodoQuery interface {
+	Create(ctx context.Context, todo *crudapi.Todo) (*crudapi.Todo, error)
+	List(ctx context.Context, offset, limit int) ([]*crudapi.Todo, error)
 	GetByID(ctx context.Context, id string) (*crudapi.Todo, error)
+	Update(ctx context.Context, todo *crudapi.Todo) (*crudapi.Todo, error)
+	Delete(ctx context.Context, id string) error
 }

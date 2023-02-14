@@ -27,12 +27,29 @@ func NewToDoService() *TodoServiceImpl {
 	}
 }
 
-func (t *TodoServiceImpl) CreateTodo(context.Context, *crudapi.CreateTodoRequest) (*crudapi.CreateTodoResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method CreateTodo not implemented")
+func (t *TodoServiceImpl) CreateTodo(ctx context.Context, req *crudapi.CreateTodoRequest) (*crudapi.CreateTodoResponse, error) {
+	todo, err := t.store.Todo().Create(ctx, req.GetTodo())
+	if err != nil {
+		glog.Error("db.Create failed, reason %v", err)
+		return nil, status.Errorf(codes.Internal, "db.GetByID failed: %v", err)
+	}
+	return &crudapi.CreateTodoResponse{
+		Todo: todo,
+	}, nil
 }
 
-func (t *TodoServiceImpl) ListTodo(context.Context, *crudapi.ListTodoRequest) (*crudapi.ListTodoResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method ListTodo not implemented")
+func (t *TodoServiceImpl) ListTodo(ctx context.Context, req *crudapi.ListTodoRequest) (*crudapi.ListTodoResponse, error) {
+	todo, err := t.store.Todo().List(ctx, int(req.GetOffset()), int(req.GetLimit()))
+	if err != nil {
+		if errors.Is(err, gorm.ErrRecordNotFound) {
+			return nil, status.Errorf(codes.NotFound, "todo not found: %v", err)
+		}
+		glog.Error("db.List failed, reason %v", err)
+		return nil, status.Errorf(codes.Internal, "db.GetByID failed: %v", err)
+	}
+	return &crudapi.ListTodoResponse{
+		Todos: todo,
+	}, nil
 }
 
 func (t *TodoServiceImpl) GetTodo(ctx context.Context, req *crudapi.GetTodoRequest) (*crudapi.GetTodoResponse, error) {
@@ -49,10 +66,23 @@ func (t *TodoServiceImpl) GetTodo(ctx context.Context, req *crudapi.GetTodoReque
 	}, nil
 }
 
-func (t *TodoServiceImpl) UpdateTodo(context.Context, *crudapi.UpdateTodoRequest) (*crudapi.UpdateTodoResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method UpdateTodo not implemented")
+func (t *TodoServiceImpl) UpdateTodo(ctx context.Context, req *crudapi.UpdateTodoRequest) (*crudapi.UpdateTodoResponse, error) {
+	req.Payload.Id = req.Id
+	todo, err := t.store.Todo().Update(ctx, req.GetPayload())
+	if err != nil {
+		glog.Error("db.Update failed, reason %v", err)
+		return nil, status.Errorf(codes.Internal, "db.GetByID failed: %v", err)
+	}
+	return &crudapi.UpdateTodoResponse{
+		Todo: todo,
+	}, nil
 }
 
-func (t *TodoServiceImpl) DeleteTodo(context.Context, *crudapi.DeleteTodoRequest) (*emptypb.Empty, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method DeleteTodo not implemented")
+func (t *TodoServiceImpl) DeleteTodo(ctx context.Context, req *crudapi.DeleteTodoRequest) (*emptypb.Empty, error) {
+	err := t.store.Todo().Delete(ctx, req.GetId())
+	if err != nil {
+		glog.Error("db.Delete failed, reason %v", err)
+		return nil, status.Errorf(codes.Internal, "db.GetByID failed: %v", err)
+	}
+	return &emptypb.Empty{}, nil
 }

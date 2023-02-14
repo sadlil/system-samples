@@ -14,6 +14,46 @@ type TodoQuery struct {
 	mock.Mock
 }
 
+// Create provides a mock function with given fields: ctx, todo
+func (_m *TodoQuery) Create(ctx context.Context, todo *crudapi.Todo) (*crudapi.Todo, error) {
+	ret := _m.Called(ctx, todo)
+
+	var r0 *crudapi.Todo
+	var r1 error
+	if rf, ok := ret.Get(0).(func(context.Context, *crudapi.Todo) (*crudapi.Todo, error)); ok {
+		return rf(ctx, todo)
+	}
+	if rf, ok := ret.Get(0).(func(context.Context, *crudapi.Todo) *crudapi.Todo); ok {
+		r0 = rf(ctx, todo)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*crudapi.Todo)
+		}
+	}
+
+	if rf, ok := ret.Get(1).(func(context.Context, *crudapi.Todo) error); ok {
+		r1 = rf(ctx, todo)
+	} else {
+		r1 = ret.Error(1)
+	}
+
+	return r0, r1
+}
+
+// Delete provides a mock function with given fields: ctx, id
+func (_m *TodoQuery) Delete(ctx context.Context, id string) error {
+	ret := _m.Called(ctx, id)
+
+	var r0 error
+	if rf, ok := ret.Get(0).(func(context.Context, string) error); ok {
+		r0 = rf(ctx, id)
+	} else {
+		r0 = ret.Error(0)
+	}
+
+	return r0
+}
+
 // GetByID provides a mock function with given fields: ctx, id
 func (_m *TodoQuery) GetByID(ctx context.Context, id string) (*crudapi.Todo, error) {
 	ret := _m.Called(ctx, id)
@@ -33,6 +73,58 @@ func (_m *TodoQuery) GetByID(ctx context.Context, id string) (*crudapi.Todo, err
 
 	if rf, ok := ret.Get(1).(func(context.Context, string) error); ok {
 		r1 = rf(ctx, id)
+	} else {
+		r1 = ret.Error(1)
+	}
+
+	return r0, r1
+}
+
+// List provides a mock function with given fields: ctx, offset, limit
+func (_m *TodoQuery) List(ctx context.Context, offset int, limit int) ([]*crudapi.Todo, error) {
+	ret := _m.Called(ctx, offset, limit)
+
+	var r0 []*crudapi.Todo
+	var r1 error
+	if rf, ok := ret.Get(0).(func(context.Context, int, int) ([]*crudapi.Todo, error)); ok {
+		return rf(ctx, offset, limit)
+	}
+	if rf, ok := ret.Get(0).(func(context.Context, int, int) []*crudapi.Todo); ok {
+		r0 = rf(ctx, offset, limit)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).([]*crudapi.Todo)
+		}
+	}
+
+	if rf, ok := ret.Get(1).(func(context.Context, int, int) error); ok {
+		r1 = rf(ctx, offset, limit)
+	} else {
+		r1 = ret.Error(1)
+	}
+
+	return r0, r1
+}
+
+// Update provides a mock function with given fields: ctx, todo
+func (_m *TodoQuery) Update(ctx context.Context, todo *crudapi.Todo) (*crudapi.Todo, error) {
+	ret := _m.Called(ctx, todo)
+
+	var r0 *crudapi.Todo
+	var r1 error
+	if rf, ok := ret.Get(0).(func(context.Context, *crudapi.Todo) (*crudapi.Todo, error)); ok {
+		return rf(ctx, todo)
+	}
+	if rf, ok := ret.Get(0).(func(context.Context, *crudapi.Todo) *crudapi.Todo); ok {
+		r0 = rf(ctx, todo)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*crudapi.Todo)
+		}
+	}
+
+	if rf, ok := ret.Get(1).(func(context.Context, *crudapi.Todo) error); ok {
+		r1 = rf(ctx, todo)
 	} else {
 		r1 = ret.Error(1)
 	}
