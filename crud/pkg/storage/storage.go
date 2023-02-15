@@ -79,7 +79,7 @@ func Init(cfg StorageConfig) error {
 			},
 		)
 		if err != nil {
-			glog.Error("Failed to create mysql connection, reason %v", err)
+			glog.Errorf("Failed to create mysql connection, reason %v", err)
 			return err
 		}
 		// Set Global instance for db

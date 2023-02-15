@@ -23,7 +23,7 @@ func TestMemoryStoreCreate(t *testing.T) {
 	// After the tests are ran unset the Random reader
 	defer uuid.SetRand(nil)
 
-	store, _ := New()
+	store := NewTodoQuery()
 
 	in := &crudapi.Todo{
 		Name:        "TODO",
@@ -67,7 +67,7 @@ func TestMemoryStoreCreate(t *testing.T) {
 }
 
 func TestMemoryStoreList(t *testing.T) {
-	store, _ := New()
+	store := NewTodoQuery()
 
 	data := []*models.Todo{
 		{
@@ -157,7 +157,7 @@ func TestMemoryStoreList(t *testing.T) {
 }
 
 func TestMemoryStoreGet(t *testing.T) {
-	store, _ := New()
+	store := NewTodoQuery()
 
 	data := []*models.Todo{
 		{
@@ -220,7 +220,7 @@ func TestMemoryStoreGet(t *testing.T) {
 }
 
 func TestMemoryStoreUpdate(t *testing.T) {
-	store, _ := New()
+	store := NewTodoQuery()
 
 	in := &crudapi.Todo{
 		Name:        "TODO",
@@ -251,7 +251,7 @@ func TestMemoryStoreUpdate(t *testing.T) {
 }
 
 func TestMemoryStoreDelete(t *testing.T) {
-	store, _ := New()
+	store := NewTodoQuery()
 
 	in := &crudapi.Todo{
 		Name:        "TODO",
