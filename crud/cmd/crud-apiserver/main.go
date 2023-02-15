@@ -28,6 +28,10 @@ var (
 	storagePassword     = pflag.StringP("storage_pass", "p", "root", "Database storage password")
 )
 
+const (
+	serviceName = "crudapi.v1.TodoService"
+)
+
 func main() {
 	application.Init()
 
@@ -35,7 +39,9 @@ func main() {
 
 	// Intialize servers.
 	srv := serverframework.New(
-		serverframework.Name("curdapi.v1.TodoService"),
+		// Name currently does nothing. But have plan to add support for service
+		// registry in the future.
+		serverframework.Name(serviceName),
 		serverframework.GRPCAddress(*serverGRPCAddr),
 		serverframework.HTTPAddress(*serverHTTPAddr),
 		serverframework.EnableRequestValidation(),
