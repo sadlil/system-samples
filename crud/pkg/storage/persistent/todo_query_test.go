@@ -30,12 +30,12 @@ func TestPersistentStoreCreate(t *testing.T) {
 		Status:      crudapi.TodoStatus(crudapi.TodoStatus_value["PENDING"]),
 		Deadline:    durationpb.New(time.Hour),
 	}
-	resp, err := store.Todo().Create(context.TODO(), in)
+	resp, err := store.Create(context.TODO(), in)
 	if err != nil {
 		t.Fatalf("store.Create: got %v, expected nil error", err)
 	}
 
-	resp, err = store.Todo().GetByID(context.TODO(), resp.Id)
+	resp, err = store.GetByID(context.TODO(), resp.Id)
 	if err != nil {
 		t.Fatalf("store.Create: got %v, expected nil error", err)
 	}
@@ -121,7 +121,7 @@ func TestPersistentStoreList(t *testing.T) {
 
 	for _, test := range tests {
 		t.Run(test.name, func(t *testing.T) {
-			resp, err := store.Todo().List(context.Background(), test.offset, test.limit)
+			resp, err := store.List(context.Background(), test.offset, test.limit)
 			if err != nil {
 				if !test.expectErr {
 					t.Fatalf("store.List: got %v, expected no error", err)
@@ -189,7 +189,7 @@ func TestPersistentStoreGet(t *testing.T) {
 
 	for _, test := range tests {
 		t.Run(test.name, func(t *testing.T) {
-			resp, err := store.Todo().GetByID(context.Background(), test.Id)
+			resp, err := store.GetByID(context.Background(), test.Id)
 			if err != nil {
 				if !test.expectErr {
 					t.Fatalf("store.List: got %v, expected no error", err)
@@ -214,18 +214,18 @@ func TestPersistentStoreUpdate(t *testing.T) {
 		Status:      crudapi.TodoStatus(crudapi.TodoStatus_value["PENDING"]),
 		Deadline:    durationpb.New(time.Hour),
 	}
-	resp, err := store.Todo().Create(context.TODO(), in)
+	resp, err := store.Create(context.TODO(), in)
 	if err != nil {
 		t.Fatalf("store.Create: got %v, expected nil error", err)
 	}
 
 	resp.Status = crudapi.TodoStatus_DONE
-	resp, err = store.Todo().Update(context.TODO(), resp)
+	resp, err = store.Update(context.TODO(), resp)
 	if err != nil {
 		t.Fatalf("store.Create: got %v, expected nil error", err)
 	}
 
-	resp, err = store.Todo().GetByID(context.Background(), resp.Id)
+	resp, err = store.GetByID(context.Background(), resp.Id)
 	if err != nil {
 		t.Fatalf("store.Create: got %v, expected nil error", err)
 	}
@@ -245,12 +245,12 @@ func TestPersistentStoreDelete(t *testing.T) {
 		Status:      crudapi.TodoStatus(crudapi.TodoStatus_value["PENDING"]),
 		Deadline:    durationpb.New(time.Hour),
 	}
-	resp, err := store.Todo().Create(context.TODO(), in)
+	resp, err := store.Create(context.TODO(), in)
 	if err != nil {
 		t.Fatalf("store.Create: got %v, expected nil error", err)
 	}
 
-	err = store.Todo().Delete(context.TODO(), resp.Id)
+	err = store.Delete(context.TODO(), resp.Id)
 	if err != nil {
 		t.Fatalf("store.Create: got %v, expected nil error", err)
 	}
@@ -264,7 +264,7 @@ func TestPersistentStoreDelete(t *testing.T) {
 	}
 }
 
-func getTestDB(t *testing.T) (*db, *gorm.DB) {
+func getTestDB(t *testing.T) (*todoQueryImpl, *gorm.DB) {
 	t.Helper()
 
 	f, err := os.CreateTemp(os.TempDir(), "todo_service.db")
@@ -274,9 +274,7 @@ func getTestDB(t *testing.T) (*db, *gorm.DB) {
 
 	d, err := gorm.Open(
 		sqlite.Open(f.Name()),
-		&gorm.Config{
-			Logger: newAppLogger(),
-		},
+		&gorm.Config{},
 	)
 	if err != nil {
 		t.Fatalf("Failed to open temp sqlite database connection, reason %v", err)
@@ -288,5 +286,5 @@ func getTestDB(t *testing.T) (*db, *gorm.DB) {
 		t.Fatalf("Failed to open temp sqlite database connection, reason %v", err)
 	}
 
-	return &db{gormDB: d}, d
+	return &todoQueryImpl{gormDB: d}, d
 }

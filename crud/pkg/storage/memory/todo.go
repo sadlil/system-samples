@@ -14,23 +14,19 @@ import (
 	"sadlil.com/samples/crud/pkg/storage/models"
 )
 
-type store struct {
+type todoQueryImpl struct {
 	namespace string
 	c         *cache.Cache
 }
 
-func New() (*store, error) {
-	return &store{
+func NewTodoQuery() *todoQueryImpl {
+	return &todoQueryImpl{
 		namespace: "todo",
 		c:         cache.New(0, 0),
-	}, nil
+	}
 }
 
-func (d *store) Todo() models.TodoQuery {
-	return d
-}
-
-func (t *store) Create(ctx context.Context, todo *crudapi.Todo) (*crudapi.Todo, error) {
+func (t *todoQueryImpl) Create(ctx context.Context, todo *crudapi.Todo) (*crudapi.Todo, error) {
 	m := &models.Todo{
 		ID:          uuid.NewString(),
 		Name:        todo.GetName(),
@@ -57,7 +53,7 @@ func (t *store) Create(ctx context.Context, todo *crudapi.Todo) (*crudapi.Todo, 
 	}, nil
 }
 
-func (t *store) List(ctx context.Context, offset, limit int) ([]*crudapi.Todo, error) {
+func (t *todoQueryImpl) List(ctx context.Context, offset, limit int) ([]*crudapi.Todo, error) {
 	items := t.c.Items()
 	if len(items) == 0 {
 		return nil, fmt.Errorf("err: no data")
@@ -99,7 +95,7 @@ func (t *store) List(ctx context.Context, offset, limit int) ([]*crudapi.Todo, e
 	return resp, nil
 }
 
-func (t *store) GetByID(ctx context.Context, id string) (*crudapi.Todo, error) {
+func (t *todoQueryImpl) GetByID(ctx context.Context, id string) (*crudapi.Todo, error) {
 	item, found := t.c.Get(t.key(id))
 	if !found {
 		return nil, fmt.Errorf("err: no data")
@@ -120,7 +116,7 @@ func (t *store) GetByID(ctx context.Context, id string) (*crudapi.Todo, error) {
 	}, nil
 }
 
-func (t *store) Update(ctx context.Context, todo *crudapi.Todo) (*crudapi.Todo, error) {
+func (t *todoQueryImpl) Update(ctx context.Context, todo *crudapi.Todo) (*crudapi.Todo, error) {
 	item, found := t.c.Get(t.key(todo.Id))
 	if !found {
 		return nil, fmt.Errorf("err: no data")
@@ -164,11 +160,11 @@ func (t *store) Update(ctx context.Context, todo *crudapi.Todo) (*crudapi.Todo, 
 	}, nil
 }
 
-func (t *store) Delete(ctx context.Context, id string) error {
+func (t *todoQueryImpl) Delete(ctx context.Context, id string) error {
 	t.c.Delete(t.key(id))
 	return nil
 }
 
-func (t *store) key(id string) string {
+func (t *todoQueryImpl) key(id string) string {
 	return fmt.Sprintf("%s:%s", t.namespace, id)
 }

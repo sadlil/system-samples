@@ -33,17 +33,6 @@ func main() {
 
 	ctx, cancel := context.WithCancel(context.Background())
 
-	err := storage.Init(storage.StorageConfig{
-		Type:     storage.StorageType(*storageType),
-		Database: *storageDatabasePath,
-		Address:  *storageAddress,
-		Username: *storageUsername,
-		Password: *storagePassword,
-	})
-	if err != nil {
-		glog.Fatalf("Failed to initialize database, reason: %v", err)
-	}
-
 	// Intialize servers.
 	srv := serverframework.New(
 		serverframework.Name("curdapi.v1.TodoService"),
@@ -63,12 +52,28 @@ func main() {
 				statserver.WithPromMetric(true),
 			),
 		),
+
+		// Start the Database connection before the server is Ran
+		serverframework.BeforeStart(func() error {
+			err := storage.Init(storage.StorageConfig{
+				DatabaseType: storage.StorageType(*storageType),
+				Database:     *storageDatabasePath,
+				Address:      *storageAddress,
+				Username:     *storageUsername,
+				Password:     *storagePassword,
+			})
+			if err != nil {
+				glog.Errorf("Failed to initialize database, reason: %v", err)
+				return err
+			}
+			return nil
+		}),
 	)
 
 	srv.RegisterGRPC(&crudapi.TodoService_ServiceDesc, service.NewToDoService())
 	srv.RegisterHTTP(crudapi.RegisterTodoServiceHandler)
 
-	err = srv.Start(ctx)
+	err := srv.Start(ctx)
 	if err != nil {
 		glog.Fatalf("Failed to start server, reason: %v", err)
 	}

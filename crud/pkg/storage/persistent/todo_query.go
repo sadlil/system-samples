@@ -15,8 +15,10 @@ type todoQueryImpl struct {
 	gormDB *gorm.DB
 }
 
-func (d *db) Todo() models.TodoQuery {
-	return &todoQueryImpl{gormDB: d.gormDB.Session(&gorm.Session{})}
+func NewTodoQuery(db *gorm.DB) *todoQueryImpl {
+	return &todoQueryImpl{
+		gormDB: db,
+	}
 }
 
 func (t *todoQueryImpl) Create(ctx context.Context, todo *crudapi.Todo) (*crudapi.Todo, error) {
