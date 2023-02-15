@@ -6,6 +6,7 @@ require (
 	github.com/golang/glog v1.0.0
 	github.com/grpc-ecosystem/go-grpc-prometheus v1.2.0
 	github.com/grpc-ecosystem/grpc-gateway/v2 v2.15.0
+	github.com/hashicorp/golang-lru v1.0.1
 	github.com/philips/go-bindata-assetfs v0.0.0-20150624150248-3dcc96556217
 	github.com/prometheus/client_golang v1.14.0
 	github.com/spf13/pflag v1.0.5
@@ -13,7 +14,11 @@ require (
 	google.golang.org/protobuf v1.28.1
 )
 
-require github.com/opentracing/opentracing-go v1.1.0 // indirect
+require (
+	github.com/hashicorp/golang-lru/v2 v2.0.1 // indirect
+	github.com/opentracing/opentracing-go v1.1.0 // indirect
+	golang.org/x/sync v0.1.0 // indirect
+)
 
 require (
 	github.com/beorn7/perks v1.0.1 // indirect
