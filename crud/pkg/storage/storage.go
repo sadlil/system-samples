@@ -83,7 +83,7 @@ func Init(cfg StorageConfig) error {
 			return err
 		}
 		// Set Global instance for db
-		global = NewCrudStorageForDB(db)
+		global = NewCrudStorageForDB(db, cfg.MaxIdleConns, cfg.MaxOpenConns)
 
 		glog.Infof("mysql connection ready.")
 	case SqLite:
@@ -98,7 +98,7 @@ func Init(cfg StorageConfig) error {
 			return err
 		}
 		// Set Global instance for db
-		global = NewCrudStorageForDB(db)
+		global = NewCrudStorageForDB(db, cfg.MaxIdleConns, cfg.MaxOpenConns)
 
 		glog.Infof("sqlite connection ready.")
 	case Memory:
@@ -111,6 +111,21 @@ func Init(cfg StorageConfig) error {
 		return fmt.Errorf("unsupported database type")
 	}
 	return nil
+}
+
+func Pool() Store {
+	if atomic.LoadUint32(&initialized) != 1 {
+		glog.Fatalf("storage.Pool called before storage.Init, exiting application")
+	}
+	return global
+}
+
+func Shutdown() {
+	if atomic.LoadUint32(&initialized) != 1 {
+		glog.Errorf("storage.Shutdown called before storage.Init, skipping shutdown")
+		return
+	}
+	global.Shutdown()
 }
 
 func newGormLogger() logger.Interface {

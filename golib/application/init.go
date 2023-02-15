@@ -5,7 +5,6 @@ import (
 	"os"
 	"os/signal"
 	"runtime"
-	"sync"
 	"sync/atomic"
 	"syscall"
 
@@ -14,10 +13,8 @@ import (
 )
 
 var (
-	once        sync.Once
 	initialized uint32
-
-	initFuncs []func()
+	initFuncs   []func()
 )
 
 // Init initializes the application
@@ -27,15 +24,13 @@ func Init() {
 	}
 
 	atomic.StoreUint32(&initialized, 1)
-	once.Do(func() {
-		pflag.CommandLine.AddGoFlagSet(flag.CommandLine)
-		pflag.Parse()
+	pflag.CommandLine.AddGoFlagSet(flag.CommandLine)
+	pflag.Parse()
 
-		glog.Infof("Initializing application")
-		for _, f := range initFuncs {
-			f()
-		}
-	})
+	glog.Infof("Initializing application")
+	for _, f := range initFuncs {
+		f()
+	}
 }
 
 func IsInitialized() bool {
@@ -62,9 +57,9 @@ func ShutdownOnInterrupt(shutdownFunc func()) {
 
 	<-stop
 
-	glog.Infoln("Received Close Signal, calling cancel")
+	glog.Infoln("Received Close Signal, calling shutdown callback")
 	shutdownFunc()
-	glog.Infof("Shutting down application")
+	glog.Infof("Application exiting")
 }
 
 func recoverFromPanic() {

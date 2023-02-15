@@ -1,6 +1,7 @@
 package storage
 
 import (
+	"github.com/golang/glog"
 	"gorm.io/gorm"
 	"sadlil.com/samples/crud/pkg/storage/memory"
 	"sadlil.com/samples/crud/pkg/storage/models"
@@ -17,12 +18,8 @@ type Store interface {
 
 var (
 	// global is a global state variable that will hold the store.
-	global Store
+	global *crudStoreImpl
 )
-
-func Pool() Store {
-	return global
-}
 
 type crudStoreImpl struct {
 	todoQuery models.TodoQuery
@@ -31,7 +28,21 @@ type crudStoreImpl struct {
 }
 
 // NewCrudStorageForDB returns a new Store for the given Gorm DB.
-func NewCrudStorageForDB(db *gorm.DB) Store {
+func NewCrudStorageForDB(db *gorm.DB, idle, open int) *crudStoreImpl {
+	sql, err := db.DB()
+	if err != nil {
+		glog.Errorf("Failed to get sql.DB from gorm.DB, reason: %v", err)
+	}
+
+	if sql != nil {
+		err = sql.Ping()
+		if err != nil {
+			glog.Errorf("Failed to ping sql.DB, reason: %v", err)
+		}
+		sql.SetMaxIdleConns(idle)
+		sql.SetMaxOpenConns(open)
+	}
+
 	return &crudStoreImpl{
 		internalGormDB: db,
 		todoQuery:      persistent.NewTodoQuery(db),
@@ -39,9 +50,27 @@ func NewCrudStorageForDB(db *gorm.DB) Store {
 }
 
 // NewCrudStorageForMemory returns a new Store object that uses an in-memory database.
-func NewCrudStorageForMemory() Store {
+func NewCrudStorageForMemory() *crudStoreImpl {
 	return &crudStoreImpl{
 		todoQuery: memory.NewTodoQuery(),
+	}
+}
+
+func (c *crudStoreImpl) Shutdown() {
+	glog.Infof("Shutting down database connections")
+	if c.internalGormDB != nil {
+		glog.Infof("Shutting down sql database connection")
+		sql, err := c.internalGormDB.DB()
+		if err != nil {
+			glog.Errorf("Failed to get sql.DB from gorm.DB, reason: %v", err)
+			return
+		}
+		err = sql.Close()
+		if err != nil {
+			glog.Errorf("Failed to Close sql.DB, reason: %v", err)
+			return
+		}
+		glog.Infof("Database connection closed.")
 	}
 }
 

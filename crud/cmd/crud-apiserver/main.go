@@ -37,6 +37,17 @@ func main() {
 
 	ctx, cancel := context.WithCancel(context.Background())
 
+	err := storage.Init(storage.StorageConfig{
+		DatabaseType: storage.StorageType(*storageType),
+		Database:     *storageDatabasePath,
+		Address:      *storageAddress,
+		Username:     *storageUsername,
+		Password:     *storagePassword,
+	})
+	if err != nil {
+		glog.Fatalf("Failed to initialize database, reason: %v", err)
+	}
+
 	// Intialize servers.
 	srv := serverframework.New(
 		// Name currently does nothing. But have plan to add support for service
@@ -58,37 +69,25 @@ func main() {
 				statserver.WithPromMetric(true),
 			),
 		),
-
-		// Start the Database connection before the server is Ran
-		serverframework.BeforeStart(func() error {
-			err := storage.Init(storage.StorageConfig{
-				DatabaseType: storage.StorageType(*storageType),
-				Database:     *storageDatabasePath,
-				Address:      *storageAddress,
-				Username:     *storageUsername,
-				Password:     *storagePassword,
-			})
-			if err != nil {
-				glog.Errorf("Failed to initialize database, reason: %v", err)
-				return err
-			}
-			return nil
-		}),
 	)
 
 	srv.RegisterGRPC(&crudapi.TodoService_ServiceDesc, service.NewToDoService())
 	srv.RegisterHTTP(crudapi.RegisterTodoServiceHandler)
 
-	err := srv.Start(ctx)
+	err = srv.Start(ctx)
 	if err != nil {
 		glog.Fatalf("Failed to start server, reason: %v", err)
 	}
 
 	// Wait until Application recives a Terminate signals.
-	// Context should be canceld and, srv.Stop will be called to gracefully
-	// shutdown the server.
+	// Once the SIGKILL/SIGTERM recived we should
+	// - stop servers,
+	// - stop database,
+	// - cancel context just to be sure anyone depending on the
+	// context is notified.
 	application.ShutdownOnInterrupt(func() {
 		_ = srv.Stop(ctx)
+		storage.Shutdown()
 		cancel()
 	})
 }
