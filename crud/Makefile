@@ -16,8 +16,7 @@ install: gen
 	go install ./...
 
 .PHONY: build
-build:
-	go install ./...
+build: install
 
 .PHONY: fmt
 fmt: gen
@@ -70,3 +69,8 @@ gen-proto-go:
 clean:
 	go clean -i -r -x
 	rm gl-code-quality-report.json
+
+
+# Build related commands
+build.docker:
+	docker build -t sadlil.com/samples/crud:$(VERSION) -f hack/docker/Dockerfile ./..

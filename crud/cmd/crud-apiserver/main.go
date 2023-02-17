@@ -28,6 +28,8 @@ var (
 	storagePassword     = pflag.StringP("storage_pass", "p", "root", "Database storage password")
 
 	redisServerAddress = pflag.StringP("cache_redis_address", "r", "", "The address of redis server to cache data, if not set a lru memory cache will be used")
+	redisUsername      = pflag.StringP("cache_redis_user", "", "", "Redis storage username")
+	redisPassword      = pflag.StringP("cache_redis_pass", "", "", "Redis storage password")
 )
 
 const (
@@ -77,6 +79,8 @@ func main() {
 		&crudapi.TodoService_ServiceDesc,
 		service.NewToDoService(service.TodoServiceOption{
 			RedisServerAddress: *redisServerAddress,
+			RedisUsername:      *redisUsername,
+			RedisPassword:      *redisPassword,
 		}),
 	).WithHTTP(crudapi.RegisterTodoServiceHandler)
 

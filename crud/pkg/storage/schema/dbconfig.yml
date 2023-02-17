@@ -4,5 +4,5 @@ development:
   dir: /tmp/samples/crud
 test:
   dialect: mysql
-  datasource: root:root@tcp(localhost:3306)/todo_service?parseTime=true
+  datasource: root:Y80mmmUhR4@tcp(localhost:3106)/todo_service?parseTime=true
   dir: .

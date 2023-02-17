@@ -19,6 +19,10 @@ import (
 	redisstore "sadlil.com/samples/golib/cache/redis"
 )
 
+const (
+	defaultLimit = 1000
+)
+
 var _ crudapi.TodoServiceServer = new(TodoServiceImpl)
 
 type TodoServiceImpl struct {
@@ -30,7 +34,8 @@ type TodoServiceImpl struct {
 }
 
 type TodoServiceOption struct {
-	RedisServerAddress string
+	RedisServerAddress           string
+	RedisUsername, RedisPassword string
 }
 
 func NewToDoService(opt TodoServiceOption) *TodoServiceImpl {
@@ -41,6 +46,8 @@ func NewToDoService(opt TodoServiceOption) *TodoServiceImpl {
 		r := redis.NewClient(&redis.Options{
 			Addr:       opt.RedisServerAddress,
 			ClientName: "crudapi.v1.TodoService",
+			Username:   opt.RedisUsername,
+			Password:   opt.RedisPassword,
 		})
 		cache = redisstore.NewCacheStore(r, redisstore.StoreConfig{Namespace: "crudapi.v1.TodoService"})
 	}
@@ -64,8 +71,11 @@ func (t *TodoServiceImpl) CreateTodo(ctx context.Context, req *crudapi.CreateTod
 }
 
 func (t *TodoServiceImpl) ListTodo(ctx context.Context, req *crudapi.ListTodoRequest) (*crudapi.ListTodoResponse, error) {
-	var todos []*crudapi.Todo
+	if req.GetLimit() == 0 {
+		req.Limit = defaultLimit
+	}
 
+	var todos []*crudapi.Todo
 	// Try featching from the cache first, if not found in cache read from the database.
 	// I understand we have support for memory as storage backend, and putting a cache infront of
 	// memory store doesn't make sense. But This is a sample of doing things, in prodduction we are defenetly

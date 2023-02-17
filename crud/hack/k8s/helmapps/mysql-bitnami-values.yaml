@@ -1,0 +1,4 @@
+auth.rootPassword: root-admin
+auth.database: todo_service
+auth.username: todo_service
+auth.password: todo_service_pass

@@ -4,12 +4,6 @@ set -o errexit
 set -o nounset
 set -o pipefail
 
-#!/usr/bin/env bash
-
-set -o errexit
-set -o nounset
-set -o pipefail
-
 function install_linux_tools() {
   sudo apt-get update -y
 

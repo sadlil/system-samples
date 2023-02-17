@@ -1,0 +1,49 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: todo-service
+  namespace: crud
+  labels:
+    app.k8s.io/name: todo-serive
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app.k8s.io/name: todo-serive
+  template:
+    metadata:
+      labels:
+        app.k8s.io/name: todo-serive
+    spec:
+      containers:
+        - name: todo-serive
+          image: sadlil.com/samples/crud:v0.1
+          ports:
+            - name: grpc
+              containerPort: 6001
+            - name: http
+              containerPort: 6002
+            - name: metric
+              containerPort: 6443
+          command: ["/go/bin/crud-apiserver"]
+          args:
+            - "--logtostderr"
+            - "--storage_type=mysql"
+            - "--storage_addr=todo-mysql.crud.svc.cluster.local:3306"
+            - "--storage_user=root"
+            - "--storage_pass=Y80mmmUhR4" # This should be coming from a secret, not from deployment.
+            - "--storage_db_path=todo_service"
+            - "--cache_redis_address=todo-redis-master.crud.svc.cluster.local:6379"
+            - "--cache_redis_pass=7ZhXQhAyjL"
+          resources:
+            requests:
+              memory: "64Mi"
+              cpu: "250m"
+            limits:
+              memory: "128Mi"
+              cpu: "500m"
+          livenessProbe:
+            httpGet:
+              path: /healthz
+              port: metric
+            initialDelaySeconds: 120
