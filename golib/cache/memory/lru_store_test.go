@@ -6,7 +6,7 @@ import (
 	"fmt"
 	"testing"
 
-	"sadlil.com/samples/golib/store/cache"
+	"sadlil.com/samples/golib/cache"
 )
 
 type lruStoreValue struct {

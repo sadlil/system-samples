@@ -89,27 +89,4 @@ type Option struct {
 	// It is called with the source object and the Fetch option, and it is expected to return
 	// a new Option. This allows you to modify the caching behavior based on the source object.
 	OnRefresh func(obj interface{}, opt Option) Option
-
-	// AllowStale allows us to keep the stale cache (during the refresh entry process) if reading from the Source fails.
-	// This takes effect only when the Fetch happens during the RaceConditionTTL period (before the cache expires).
-	// Therefore, we should have RaceConditionTTL > 0.
-	// AllowStale bool
-
-	// StalePeriod defines how long we allow the stale cache to last.
-	// StalePeriod should be > RaceConditionTTL to reduce the number of trials to refresh the cache.
-	// StalePeriod time.Duration
 }
-
-// var (
-// 	// defaultRefreshRate defines a percentage of refresh on stale item (0, 1.0)
-// 	defaultRefreshRate = 0.3
-// )
-
-// // GetRefreshRate ...
-// func (o *Option) GetRefreshRate() float64 {
-// 	if o.RefreshRate > 0 {
-// 		return o.RefreshRate
-// 	}
-
-// 	return defaultRefreshRate
-// }

@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"reflect"
 
-	"sadlil.com/samples/golib/store/cache"
+	"sadlil.com/samples/golib/cache"
 )
 
 // Copy copies the value from the source variable to the destination variable,

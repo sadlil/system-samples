@@ -7,23 +7,22 @@ import (
 	"testing"
 	"time"
 
-	"sadlil.com/samples/golib/store/cache"
+	"sadlil.com/samples/golib/cache"
 )
 
-type ttlStoreValue struct {
+type intervalStoreValue struct {
 	ID string
 }
 
-func TestTTLStore(t *testing.T) {
+func TestIntervalStore(t *testing.T) {
 	ctx := context.TODO()
-	s := NewTTLStore(TTLStoreConfig{
-		DefaultExpiration: 0,
-		CleanupInterval:   0,
+	s := NewIntervalStore(IntervalStoreConfig{
+		CleanupInterval: time.Second * 2,
 	})
 
-	s.Set(ctx, "foo-key", &ttlStoreValue{ID: "foo"}, &cache.Option{Expiry: time.Second})
+	s.Set(ctx, "foo-key", &intervalStoreValue{ID: "foo"}, nil)
 
-	v := &ttlStoreValue{}
+	v := &intervalStoreValue{}
 	if err := s.Get(ctx, "foo-key", v); err != nil {
 		t.Errorf("s.Get(foo-key): got %v, want nil", err)
 	}
@@ -39,8 +38,8 @@ func TestTTLStore(t *testing.T) {
 		t.Errorf("s.Get(v.ID): got %v, want %v", v.ID, "foo")
 	}
 
-	time.Sleep(time.Second)
-	v = &ttlStoreValue{}
+	<-s.ticker.C
+	v = &intervalStoreValue{}
 	// Cache should be Clear now.
 	if err := s.Get(ctx, "foo-key", v); err != nil {
 		if !errors.Is(err, cache.ErrCacheMiss) {
@@ -48,7 +47,7 @@ func TestTTLStore(t *testing.T) {
 		}
 	}
 
-	s.Set(ctx, "foo-key", &ttlStoreValue{ID: "foo"}, &cache.Option{Expiry: time.Hour})
+	s.Set(ctx, "foo-key", &intervalStoreValue{ID: "foo"}, nil)
 	if err := s.Get(ctx, "foo-key", v); err != nil {
 		t.Errorf("s.Get(foo-key): got %v, want nil", err)
 	}

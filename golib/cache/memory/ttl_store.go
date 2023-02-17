@@ -7,8 +7,8 @@ import (
 
 	gocache "github.com/patrickmn/go-cache"
 	"golang.org/x/sync/singleflight"
-	"sadlil.com/samples/golib/store/cache"
-	"sadlil.com/samples/golib/store/cache/internal/copier"
+	"sadlil.com/samples/golib/cache"
+	"sadlil.com/samples/golib/cache/internal/copier"
 )
 
 // TTLStoreConfig captures configs for ttlStore

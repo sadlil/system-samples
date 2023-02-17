@@ -3,8 +3,8 @@ package fake
 import (
 	"context"
 
-	"sadlil.com/samples/golib/store/cache"
-	"sadlil.com/samples/golib/store/cache/internal/copier"
+	"sadlil.com/samples/golib/cache"
+	"sadlil.com/samples/golib/cache/internal/copier"
 )
 
 // FakeStore is an implementation of the cache.Store interface, used in testing.

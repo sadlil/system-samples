@@ -7,8 +7,8 @@ import (
 
 	lru "github.com/hashicorp/golang-lru/v2"
 	"golang.org/x/sync/singleflight"
-	"sadlil.com/samples/golib/store/cache"
-	"sadlil.com/samples/golib/store/cache/internal/copier"
+	"sadlil.com/samples/golib/cache"
+	"sadlil.com/samples/golib/cache/internal/copier"
 )
 
 // IntervalStoreConfig captures configs for NewLRUStore
@@ -23,9 +23,9 @@ type IntervalStoreConfig struct {
 	CleanupInterval time.Duration
 }
 
-// NewIntervaltore return a namespaced cache.Store that is backed in memory
+// NewIntervalStore return a namespaced cache.Store that is backed in memory
 // and refreshes its states at a regular interval.
-func NewIntervaltore(cfg IntervalStoreConfig) *intervalStore {
+func NewIntervalStore(cfg IntervalStoreConfig) *intervalStore {
 	if cfg.Capacity <= 0 {
 		cfg.Capacity = 1000
 	}
