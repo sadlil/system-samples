@@ -3,8 +3,8 @@ package serverframework
 import (
 	assetfs "github.com/philips/go-bindata-assetfs"
 	"google.golang.org/grpc"
-	"sadlil.com/samples/golib/net/interceptors"
-	"sadlil.com/samples/golib/net/statserver"
+	"sadlil.com/samples/golib/server/interceptors"
+	"sadlil.com/samples/golib/server/statserver"
 )
 
 type Option func(s *Server)

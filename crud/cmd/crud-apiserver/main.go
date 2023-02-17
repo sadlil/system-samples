@@ -11,8 +11,8 @@ import (
 	"sadlil.com/samples/crud/pkg/service"
 	"sadlil.com/samples/crud/pkg/storage"
 	"sadlil.com/samples/golib/application"
-	"sadlil.com/samples/golib/net/serverframework"
-	"sadlil.com/samples/golib/net/statserver"
+	"sadlil.com/samples/golib/server/serverframework"
+	"sadlil.com/samples/golib/server/statserver"
 )
 
 var (

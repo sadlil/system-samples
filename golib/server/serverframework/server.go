@@ -16,8 +16,8 @@ import (
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials/insecure"
 	"google.golang.org/protobuf/encoding/protojson"
-	"sadlil.com/samples/golib/net/serverframework/rpcregistry"
-	"sadlil.com/samples/golib/net/statserver"
+	"sadlil.com/samples/golib/server/serverframework/rpcregistry"
+	"sadlil.com/samples/golib/server/statserver"
 )
 
 type Server struct {
