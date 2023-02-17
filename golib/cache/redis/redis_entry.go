@@ -4,7 +4,7 @@ import (
 	"bytes"
 	"encoding/base64"
 	"encoding/json"
-	"io/ioutil"
+	"io"
 	"sync"
 
 	"github.com/klauspost/compress/snappy"
@@ -91,7 +91,7 @@ func (e *redisEntry) compress(b []byte) ([]byte, error) {
 
 func (e *redisEntry) decompress(b []byte) ([]byte, error) {
 	sn := snappy.NewReader(bytes.NewReader(b))
-	decompressedBytes, err := ioutil.ReadAll(sn)
+	decompressedBytes, err := io.ReadAll(sn)
 	if err != nil {
 		return nil, err
 	}
