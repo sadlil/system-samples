@@ -78,8 +78,7 @@ func main() {
 		service.NewToDoService(service.TodoServiceOption{
 			RedisServerAddress: *redisServerAddress,
 		}),
-	)
-	srv.RegisterHTTP(crudapi.RegisterTodoServiceHandler)
+	).WithHTTP(crudapi.RegisterTodoServiceHandler)
 
 	err = srv.Start(ctx)
 	if err != nil {

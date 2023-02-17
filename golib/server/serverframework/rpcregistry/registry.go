@@ -19,6 +19,10 @@ type (
 	HTTPProxy func(ctx context.Context, mux *runtime.ServeMux, conn *grpc.ClientConn) error
 )
 
+type WithHTTP interface {
+	WithHTTP(def HTTPProxy)
+}
+
 type RPCServiceRegistry struct {
 	mu sync.Mutex
 
@@ -33,14 +37,22 @@ func New() *RPCServiceRegistry {
 	}
 }
 
-func (r *RPCServiceRegistry) RegisterGRPC(sd *grpc.ServiceDesc, impl any) {
+func (r *RPCServiceRegistry) RegisterGRPC(sd *grpc.ServiceDesc, impl any) WithHTTP {
 	r.mu.Lock()
 	defer r.mu.Unlock()
 
 	r.services = append(r.services, ServiceDef{Desc: sd, Impl: impl})
+	return r
 }
 
 func (r *RPCServiceRegistry) RegisterHTTP(def HTTPProxy) {
+	r.mu.Lock()
+	defer r.mu.Unlock()
+
+	r.httpProxy = append(r.httpProxy, def)
+}
+
+func (r *RPCServiceRegistry) WithHTTP(def HTTPProxy) {
 	r.mu.Lock()
 	defer r.mu.Unlock()
 
