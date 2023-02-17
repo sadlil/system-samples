@@ -5,10 +5,10 @@ import (
 	"fmt"
 	"time"
 
+	"github.com/jinzhu/copier"
 	gocache "github.com/patrickmn/go-cache"
 	"golang.org/x/sync/singleflight"
 	"sadlil.com/samples/golib/cache"
-	"sadlil.com/samples/golib/cache/internal/copier"
 )
 
 // TTLStoreConfig captures configs for ttlStore
@@ -39,7 +39,7 @@ func (s *ttlStore) Get(ctx context.Context, key string, obj any) error {
 	if !ok {
 		return cache.ErrCacheMiss
 	}
-	return copier.Copy(src, obj)
+	return copier.Copy(obj, src)
 }
 
 func (s *ttlStore) Set(ctx context.Context, key string, obj any, opt *cache.Option) error {
@@ -53,7 +53,7 @@ func (s *ttlStore) Set(ctx context.Context, key string, obj any, opt *cache.Opti
 func (s *ttlStore) Fetch(ctx context.Context, key string, o any, opt *cache.Option) error {
 	d, ok := s.cache.Get(key)
 	if ok {
-		return copier.Copy(d, o)
+		return copier.Copy(o, d)
 	}
 	return s.refreshEntry(ctx, key, o, opt)
 }
@@ -83,5 +83,5 @@ func (s *ttlStore) refreshEntry(ctx context.Context, key string, o any, opt *cac
 	if err != nil {
 		return err
 	}
-	return copier.Copy(d, o)
+	return copier.Copy(o, d)
 }

@@ -7,10 +7,10 @@ import (
 	"fmt"
 	"strings"
 
+	"github.com/jinzhu/copier"
 	"github.com/redis/go-redis/v9"
 	"golang.org/x/sync/singleflight"
 	"sadlil.com/samples/golib/cache"
-	"sadlil.com/samples/golib/cache/internal/copier"
 )
 
 type StoreConfig struct {
@@ -87,8 +87,7 @@ func (s redisStore) readEntry(ctx context.Context, key string) (*redisEntry, err
 	}
 
 	entryObj := &redisEntry{}
-	err = json.Unmarshal(data, entryObj)
-	return entryObj, err
+	return entryObj, json.Unmarshal(data, entryObj)
 }
 
 func (r *redisStore) loadEntry(ctx context.Context, key string, target any, opt *cache.Option) error {
@@ -108,8 +107,10 @@ func (r *redisStore) loadEntry(ctx context.Context, key string, target any, opt 
 		}()
 		return obj, err
 	})
-	copier.Copy(obj, target)
-	return err
+	if err != nil {
+		return err
+	}
+	return copier.Copy(target, obj)
 }
 
 func (c *StoreConfig) NamespacedKey(key string) string {

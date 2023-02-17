@@ -3,8 +3,8 @@ package fake
 import (
 	"context"
 
+	"github.com/jinzhu/copier"
 	"sadlil.com/samples/golib/cache"
-	"sadlil.com/samples/golib/cache/internal/copier"
 )
 
 // FakeStore is an implementation of the cache.Store interface, used in testing.
@@ -28,7 +28,7 @@ func (s *FakeStore) Get(ctx context.Context, key string, obj any) error {
 	s.ReadKeys = append(s.ReadKeys, key)
 	if s.Cache != nil {
 		if v, ok := s.Cache[key]; ok {
-			return copier.Copy(v, obj)
+			return copier.Copy(obj, v)
 		}
 	}
 	return cache.ErrCacheMiss
@@ -54,7 +54,7 @@ func (s *FakeStore) Fetch(ctx context.Context, key string, obj any, opt *cache.O
 	if s.Cache != nil {
 		dbobj, ok := s.Cache[key]
 		if ok {
-			return copier.Copy(dbobj, obj)
+			return copier.Copy(obj, dbobj)
 		}
 	}
 
@@ -63,7 +63,7 @@ func (s *FakeStore) Fetch(ctx context.Context, key string, obj any, opt *cache.O
 		return err
 	}
 	_ = s.Set(ctx, key, obj, opt)
-	return copier.Copy(dbobj, obj)
+	return copier.Copy(obj, dbobj)
 }
 
 // Delete expires the mentioned key.

@@ -6,9 +6,9 @@ import (
 	"time"
 
 	lru "github.com/hashicorp/golang-lru/v2"
+	"github.com/jinzhu/copier"
 	"golang.org/x/sync/singleflight"
 	"sadlil.com/samples/golib/cache"
-	"sadlil.com/samples/golib/cache/internal/copier"
 )
 
 // IntervalStoreConfig captures configs for NewLRUStore
@@ -54,7 +54,7 @@ func (s *intervalStore) Get(ctx context.Context, key string, obj any) error {
 	if !ok {
 		return cache.ErrCacheMiss
 	}
-	return copier.Copy(src, obj)
+	return copier.Copy(obj, src)
 }
 
 func (s *intervalStore) Set(ctx context.Context, key string, obj any, _ *cache.Option) error {
@@ -65,7 +65,7 @@ func (s *intervalStore) Set(ctx context.Context, key string, obj any, _ *cache.O
 func (s *intervalStore) Fetch(ctx context.Context, key string, o any, opt *cache.Option) error {
 	d, ok := s.cache.Get(key)
 	if ok {
-		return copier.Copy(d, o)
+		return copier.Copy(o, d)
 	}
 	return s.refreshEntry(ctx, key, o, opt)
 }
@@ -95,7 +95,7 @@ func (s *intervalStore) refreshEntry(ctx context.Context, key string, o any, opt
 	if err != nil {
 		return err
 	}
-	return copier.Copy(d, o)
+	return copier.Copy(o, d)
 }
 
 func (s *intervalStore) cleanUp() {

@@ -26,6 +26,8 @@ var (
 	storageAddress      = pflag.StringP("storage_addr", "a", "localhost:3306", "Database address")
 	storageUsername     = pflag.StringP("storage_user", "u", "root", "Database storage username")
 	storagePassword     = pflag.StringP("storage_pass", "p", "root", "Database storage password")
+
+	redisServerAddress = pflag.StringP("cache_redis_address", "r", "", "The address of redis server to cache data, if not set a lru memory cache will be used")
 )
 
 const (
@@ -71,7 +73,12 @@ func main() {
 		),
 	)
 
-	srv.RegisterGRPC(&crudapi.TodoService_ServiceDesc, service.NewToDoService())
+	srv.RegisterGRPC(
+		&crudapi.TodoService_ServiceDesc,
+		service.NewToDoService(service.TodoServiceOption{
+			RedisServerAddress: *redisServerAddress,
+		}),
+	)
 	srv.RegisterHTTP(crudapi.RegisterTodoServiceHandler)
 
 	err = srv.Start(ctx)
