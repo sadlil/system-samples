@@ -3,27 +3,28 @@ module sadlil.com/samples/golib
 go 1.20
 
 require (
+	github.com/alicebob/miniredis/v2 v2.30.0
 	github.com/golang/glog v1.0.0
 	github.com/grpc-ecosystem/go-grpc-prometheus v1.2.0
 	github.com/grpc-ecosystem/grpc-gateway/v2 v2.15.0
-	github.com/hashicorp/golang-lru v1.0.1
+	github.com/hashicorp/golang-lru/v2 v2.0.1
+	github.com/jinzhu/copier v0.3.5
+	github.com/klauspost/compress v1.15.15
+	github.com/patrickmn/go-cache v2.1.0+incompatible
 	github.com/philips/go-bindata-assetfs v0.0.0-20150624150248-3dcc96556217
 	github.com/prometheus/client_golang v1.14.0
+	github.com/redis/go-redis/v9 v9.0.2
 	github.com/spf13/pflag v1.0.5
+	golang.org/x/sync v0.1.0
 	google.golang.org/grpc v1.53.0
 	google.golang.org/protobuf v1.28.1
 )
 
 require (
 	github.com/alicebob/gopher-json v0.0.0-20200520072559-a9ecdc9d1d3a // indirect
-	github.com/alicebob/miniredis/v2 v2.30.0 // indirect
 	github.com/dgryski/go-rendezvous v0.0.0-20200823014737-9f7001d12a5f // indirect
-	github.com/hashicorp/golang-lru/v2 v2.0.1 // indirect
-	github.com/klauspost/compress v1.15.15 // indirect
 	github.com/opentracing/opentracing-go v1.1.0 // indirect
-	github.com/redis/go-redis/v9 v9.0.2 // indirect
 	github.com/yuin/gopher-lua v0.0.0-20220504180219-658193537a64 // indirect
-	golang.org/x/sync v0.1.0 // indirect
 )
 
 require (
@@ -35,7 +36,6 @@ require (
 	github.com/prometheus/client_model v0.3.0 // indirect
 	github.com/prometheus/common v0.37.0 // indirect
 	github.com/prometheus/procfs v0.8.0 // indirect
-	github.com/stretchr/testify v1.8.1 // indirect
 	golang.org/x/net v0.5.0 // indirect
 	golang.org/x/sys v0.4.0 // indirect
 	golang.org/x/text v0.6.0 // indirect
