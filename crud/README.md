@@ -25,6 +25,8 @@ This system does not consider user management, authentication or session managem
 
 ![Highlevel architecture](docs/img/design.png "High level todo service architecture")
 
+Read the detailed design decision of todo service in [docs/design.md](docs/design.md).
+
 ## Code Architecture
 
 ## Development
