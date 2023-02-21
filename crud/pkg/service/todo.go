@@ -40,7 +40,7 @@ type TodoServiceOption struct {
 
 func NewToDoService(opt TodoServiceOption) *TodoServiceImpl {
 	var cache cache.Store
-	cache = memory.NewLRUStore(memory.LRUStoreConfig{Capacity: 200})
+	cache = memory.NewTTLStore(memory.TTLStoreConfig{DefaultExpiration: time.Minute})
 	if opt.RedisServerAddress != "" {
 		glog.Infof("Redis server address found: %v", opt.RedisServerAddress)
 		r := redis.NewClient(&redis.Options{
@@ -75,7 +75,7 @@ func (t *TodoServiceImpl) ListTodo(ctx context.Context, req *crudapi.ListTodoReq
 		req.Limit = defaultLimit
 	}
 
-	var todos []*crudapi.Todo
+	todos := make([]*crudapi.Todo, 0)
 	// Try featching from the cache first, if not found in cache read from the database.
 	// I understand we have support for memory as storage backend, and putting a cache infront of
 	// memory store doesn't make sense. But This is a sample of doing things, in prodduction we are defenetly
@@ -108,7 +108,7 @@ func (t *TodoServiceImpl) ListTodo(ctx context.Context, req *crudapi.ListTodoReq
 }
 
 func (t *TodoServiceImpl) GetTodo(ctx context.Context, req *crudapi.GetTodoRequest) (*crudapi.GetTodoResponse, error) {
-	var todo *crudapi.Todo
+	todo := new(crudapi.Todo)
 	err := t.cache.Fetch(ctx,
 		fmt.Sprintf("todo:get:id:%v", req.Id),
 		todo,

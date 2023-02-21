@@ -70,7 +70,7 @@ func (c *Client) ListTodo(ctx context.Context, in *crudapi.ListTodoRequest) (*cr
 // GetTodo calls the GetTodo method on the gRPC client stub
 func (c *Client) GetTodo(ctx context.Context, in *crudapi.GetTodoRequest) (*crudapi.GetTodoResponse, error) {
 	resp := &crudapi.GetTodoResponse{}
-	if err := c.Get(ctx, fmt.Sprintf("%v", in.Id), in, resp); err != nil {
+	if err := c.Get(ctx, fmt.Sprintf("/%v", in.Id), in, resp); err != nil {
 		return nil, err
 	}
 	return resp, nil
@@ -79,7 +79,7 @@ func (c *Client) GetTodo(ctx context.Context, in *crudapi.GetTodoRequest) (*crud
 // UpdateTodo calls the UpdateTodo method on the gRPC client stub
 func (c *Client) UpdateTodo(ctx context.Context, in *crudapi.UpdateTodoRequest) (*crudapi.UpdateTodoResponse, error) {
 	resp := &crudapi.UpdateTodoResponse{}
-	if err := c.Put(ctx, fmt.Sprintf("%v", in.Id), in, resp); err != nil {
+	if err := c.Put(ctx, fmt.Sprintf("/%v", in.Id), in, resp); err != nil {
 		return nil, err
 	}
 	return resp, nil
@@ -88,7 +88,7 @@ func (c *Client) UpdateTodo(ctx context.Context, in *crudapi.UpdateTodoRequest) 
 // DeleteTodo calls the DeleteTodo method on the gRPC client stub
 func (c *Client) DeleteTodo(ctx context.Context, in *crudapi.DeleteTodoRequest) (*emptypb.Empty, error) {
 	resp := &emptypb.Empty{}
-	if err := c.Delete(ctx, fmt.Sprintf("%v", in.Id), in, resp); err != nil {
+	if err := c.Delete(ctx, fmt.Sprintf("/%v", in.Id), in, resp); err != nil {
 		return nil, err
 	}
 	return resp, nil
@@ -111,6 +111,7 @@ func (c *Client) doRequest(ctx context.Context, method, url string, body, resp p
 	}
 
 	glog.Infof("Making HTTP request to url %v, with method %v", url, method)
+	glog.Infof("request payload %s", reqBody)
 	req, err := http.NewRequestWithContext(ctx, method, url, bytes.NewBuffer(reqBody))
 	if err != nil {
 		return fmt.Errorf("failed to create HTTP request: %w", err)
@@ -119,7 +120,7 @@ func (c *Client) doRequest(ctx context.Context, method, url string, body, resp p
 	req.Header = c.headers
 	res, err := c.client.Do(req)
 	if err != nil {
-		return fmt.Errorf("HTTP request failed: %w", err)
+		return fmt.Errorf("http request failed: %w", err)
 	}
 	return unmarshalResponse(res, resp)
 }
@@ -130,6 +131,7 @@ func unmarshalResponse(resp *http.Response, into proto.Message) error {
 		return fmt.Errorf("http response: %w", err)
 	}
 
+	glog.Infof("response payload %s", body)
 	if resp.StatusCode != http.StatusOK {
 		var errResp status.Status
 		if err := protojson.Unmarshal(body, &errResp); err != nil {
@@ -142,7 +144,7 @@ func unmarshalResponse(resp *http.Response, into proto.Message) error {
 
 func (c *Client) Get(ctx context.Context, path string, body, resp proto.Message) error {
 	url := c.BaseURL + path
-	return c.doRequest(ctx, http.MethodGet, url, body, resp)
+	return c.doRequest(ctx, http.MethodGet, url, nil, resp)
 }
 
 func (c *Client) Post(ctx context.Context, path string, body, resp proto.Message) error {

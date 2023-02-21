@@ -60,6 +60,7 @@ func main() {
 		serverframework.GRPCAddress(*serverGRPCAddr),
 		serverframework.HTTPAddress(*serverHTTPAddr),
 		serverframework.EnableRequestValidation(),
+		// serverframweork.WithUnaryInterceptors(),
 		serverframework.EnableRequestCORS(),
 		serverframework.WithSwaggerAssetFS(&assetfs.AssetFS{
 			Asset:    openapi.Asset,

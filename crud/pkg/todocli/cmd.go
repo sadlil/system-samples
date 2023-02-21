@@ -23,19 +23,23 @@ func NewRootCmd() *cobra.Command {
 		Use:     "todocli",
 		Example: "todocli get <id>",
 		PersistentPreRun: func(cmd *cobra.Command, args []string) {
-
+			glog.Infof("todocli command started, args %v", args)
+			viper.BindPFlags(cmd.PersistentFlags())
 		},
 		Run: func(cmd *cobra.Command, args []string) {
-			glog.Infof("todocli command started, args %v", args)
 			cmd.Help()
 		},
 	}
 
 	cmd.PersistentFlags().StringP(flagTransport, "t", "http", "Transport to use for the coneection to server, http or grpc")
 	cmd.PersistentFlags().StringP(flagServerAddress, "a", "http://localhost:6002", "Server address")
-	viper.BindPFlags(cmd.PersistentFlags())
 
 	cmd.AddCommand(newListCmd())
+	cmd.AddCommand(newGetCmd())
+	cmd.AddCommand(newCreateCmd())
+	cmd.AddCommand(newDeleteCmd())
+	cmd.AddCommand(newUpdateCmd())
+	cmd.AddCommand(newDoneCmd())
 
 	// parse flags beyond subcommand - get around go flag 'limitations':
 	// "Flag parsing stops just before the first non-flag argument" (ref: https://pkg.go.dev/flag#hdr-Command_line_flag_syntax)
