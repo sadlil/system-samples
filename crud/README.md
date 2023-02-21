@@ -23,7 +23,7 @@ This system does not consider user management, authentication or session managem
 
 ## Highlevel design
 
-![Highlevel architecture](docs/img/architecture.png "High level todo service architecture")
+![Highlevel architecture](docs/img/design.png "High level todo service architecture")
 
 ## Code Architecture
 
