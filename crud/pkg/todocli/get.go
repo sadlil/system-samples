@@ -7,7 +7,7 @@ import (
 	"github.com/jedib0t/go-pretty/v6/table"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
-	"sadlil.com/samples/crud/apis/go/crudapi"
+	"sadlil.com/samples/crud/apis/go/crudapiv1"
 )
 
 func newGetCmd() *cobra.Command {
@@ -33,7 +33,7 @@ func runGet(cmd *cobra.Command, args []string) {
 		os.Exit(1)
 	}
 
-	resp, err := client.GetTodo(cmd.Root().Context(), &crudapi.GetTodoRequest{
+	resp, err := client.GetTodo(cmd.Root().Context(), &crudapiv1.GetTodoRequest{
 		Id: args[0],
 	})
 	if err != nil {

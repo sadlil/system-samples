@@ -4,7 +4,7 @@
 
 This project aims to demonstrate the implementation of a sample TODO app with plugable storage backend. The system will showcase the following features:
 
-- Utilization of [Protocol Buffer](https://developers.google.com/protocol-buffers) based API contracts and dependency management via [protodep](https://github.com/stormcat24/protodep).
+- Utilization of [Protocol Buffer](https://developers.google.com/protocol-buffers) based API contracts and dependency management via [buf](https://buf.build/).
 - Generation of [OpenAPI](https://swagger.io/specification/) specification from the Protobuf API definitions.
 - Implementation of [gRPC](https://grpc.io/) and [HTTP gateway](https://github.com/grpc-ecosystem/grpc-gateway) server for communication.
 - Configurable storage backend supporting plugable mysql, sqlite or inmemory storage options.

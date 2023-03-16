@@ -7,7 +7,7 @@ import (
 	"github.com/golang/glog"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
-	"sadlil.com/samples/crud/apis/go/crudapi"
+	"sadlil.com/samples/crud/apis/go/crudapiv1"
 )
 
 func newDoneCmd() *cobra.Command {
@@ -32,7 +32,7 @@ func runDone(cmd *cobra.Command, args []string) {
 	}
 	defer client.Close()
 
-	resp, err := client.GetTodo(cmd.Root().Context(), &crudapi.GetTodoRequest{
+	resp, err := client.GetTodo(cmd.Root().Context(), &crudapiv1.GetTodoRequest{
 		Id: viper.GetString("id"),
 	})
 	if err != nil {
@@ -42,8 +42,8 @@ func runDone(cmd *cobra.Command, args []string) {
 	}
 
 	payload := resp.Todo
-	payload.Status = crudapi.TodoStatus_DONE
-	_, err = client.UpdateTodo(cmd.Root().Context(), &crudapi.UpdateTodoRequest{
+	payload.Status = crudapiv1.TodoStatus_TODO_STATUS_DONE
+	_, err = client.UpdateTodo(cmd.Root().Context(), &crudapiv1.UpdateTodoRequest{
 		Id:      viper.GetString("id"),
 		Payload: payload,
 	})

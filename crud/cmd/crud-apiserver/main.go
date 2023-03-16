@@ -6,7 +6,7 @@ import (
 	"github.com/golang/glog"
 	assetfs "github.com/philips/go-bindata-assetfs"
 	"github.com/spf13/pflag"
-	"sadlil.com/samples/crud/apis/go/crudapi"
+	"sadlil.com/samples/crud/apis/go/crudapiv1"
 	"sadlil.com/samples/crud/apis/openapi"
 	"sadlil.com/samples/crud/pkg/service"
 	"sadlil.com/samples/crud/pkg/storage"
@@ -65,7 +65,7 @@ func main() {
 		serverframework.WithSwaggerAssetFS(&assetfs.AssetFS{
 			Asset:    openapi.Asset,
 			AssetDir: openapi.AssetDir,
-			Prefix:   "apis/openapi/apis",
+			Prefix:   "apis/openapi/gen",
 		}),
 		serverframework.WithStatServer(
 			statserver.New(
@@ -77,13 +77,13 @@ func main() {
 	)
 
 	srv.RegisterGRPC(
-		&crudapi.TodoService_ServiceDesc,
+		&crudapiv1.TodoService_ServiceDesc,
 		service.NewToDoService(service.TodoServiceOption{
 			RedisServerAddress: *redisServerAddress,
 			RedisUsername:      *redisUsername,
 			RedisPassword:      *redisPassword,
 		}),
-	).WithHTTP(crudapi.RegisterTodoServiceHandler)
+	).WithHTTP(crudapiv1.RegisterTodoServiceHandler)
 
 	err = srv.Start(ctx)
 	if err != nil {

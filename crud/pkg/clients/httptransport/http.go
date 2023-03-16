@@ -14,7 +14,7 @@ import (
 	"google.golang.org/protobuf/encoding/protojson"
 	"google.golang.org/protobuf/proto"
 	"google.golang.org/protobuf/types/known/emptypb"
-	"sadlil.com/samples/crud/apis/go/crudapi"
+	"sadlil.com/samples/crud/apis/go/crudapiv1"
 	"sadlil.com/samples/crud/pkg/clients"
 )
 
@@ -50,8 +50,8 @@ func NewClient(opts ...Options) (clients.TodoServiceClient, error) {
 }
 
 // CreateTodo calls the CreateTodo method on the gRPC client stub
-func (c *Client) CreateTodo(ctx context.Context, in *crudapi.CreateTodoRequest) (*crudapi.CreateTodoResponse, error) {
-	resp := &crudapi.CreateTodoResponse{}
+func (c *Client) CreateTodo(ctx context.Context, in *crudapiv1.CreateTodoRequest) (*crudapiv1.CreateTodoResponse, error) {
+	resp := &crudapiv1.CreateTodoResponse{}
 	if err := c.Post(ctx, "", in, resp); err != nil {
 		return nil, err
 	}
@@ -59,8 +59,8 @@ func (c *Client) CreateTodo(ctx context.Context, in *crudapi.CreateTodoRequest) 
 }
 
 // ListTodo calls the ListTodo method on the gRPC client stub
-func (c *Client) ListTodo(ctx context.Context, in *crudapi.ListTodoRequest) (*crudapi.ListTodoResponse, error) {
-	resp := &crudapi.ListTodoResponse{}
+func (c *Client) ListTodo(ctx context.Context, in *crudapiv1.ListTodoRequest) (*crudapiv1.ListTodoResponse, error) {
+	resp := &crudapiv1.ListTodoResponse{}
 	if err := c.Get(ctx, "", in, resp); err != nil {
 		return nil, err
 	}
@@ -68,8 +68,8 @@ func (c *Client) ListTodo(ctx context.Context, in *crudapi.ListTodoRequest) (*cr
 }
 
 // GetTodo calls the GetTodo method on the gRPC client stub
-func (c *Client) GetTodo(ctx context.Context, in *crudapi.GetTodoRequest) (*crudapi.GetTodoResponse, error) {
-	resp := &crudapi.GetTodoResponse{}
+func (c *Client) GetTodo(ctx context.Context, in *crudapiv1.GetTodoRequest) (*crudapiv1.GetTodoResponse, error) {
+	resp := &crudapiv1.GetTodoResponse{}
 	if err := c.Get(ctx, fmt.Sprintf("/%v", in.Id), in, resp); err != nil {
 		return nil, err
 	}
@@ -77,8 +77,8 @@ func (c *Client) GetTodo(ctx context.Context, in *crudapi.GetTodoRequest) (*crud
 }
 
 // UpdateTodo calls the UpdateTodo method on the gRPC client stub
-func (c *Client) UpdateTodo(ctx context.Context, in *crudapi.UpdateTodoRequest) (*crudapi.UpdateTodoResponse, error) {
-	resp := &crudapi.UpdateTodoResponse{}
+func (c *Client) UpdateTodo(ctx context.Context, in *crudapiv1.UpdateTodoRequest) (*crudapiv1.UpdateTodoResponse, error) {
+	resp := &crudapiv1.UpdateTodoResponse{}
 	if err := c.Put(ctx, fmt.Sprintf("/%v", in.Id), in, resp); err != nil {
 		return nil, err
 	}
@@ -86,7 +86,7 @@ func (c *Client) UpdateTodo(ctx context.Context, in *crudapi.UpdateTodoRequest) 
 }
 
 // DeleteTodo calls the DeleteTodo method on the gRPC client stub
-func (c *Client) DeleteTodo(ctx context.Context, in *crudapi.DeleteTodoRequest) (*emptypb.Empty, error) {
+func (c *Client) DeleteTodo(ctx context.Context, in *crudapiv1.DeleteTodoRequest) (*emptypb.Empty, error) {
 	resp := &emptypb.Empty{}
 	if err := c.Delete(ctx, fmt.Sprintf("/%v", in.Id), in, resp); err != nil {
 		return nil, err

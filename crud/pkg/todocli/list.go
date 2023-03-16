@@ -10,7 +10,7 @@ import (
 	"github.com/jedib0t/go-pretty/v6/text"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
-	"sadlil.com/samples/crud/apis/go/crudapi"
+	"sadlil.com/samples/crud/apis/go/crudapiv1"
 )
 
 func newListCmd() *cobra.Command {
@@ -36,7 +36,7 @@ func runList(cmd *cobra.Command, args []string) {
 	}
 	defer client.Close()
 
-	resp, err := client.ListTodo(cmd.Root().Context(), &crudapi.ListTodoRequest{
+	resp, err := client.ListTodo(cmd.Root().Context(), &crudapiv1.ListTodoRequest{
 		Limit: int64(viper.GetInt("limit")),
 	})
 	if err != nil {

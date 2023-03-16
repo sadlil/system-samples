@@ -7,7 +7,7 @@ import (
 	"google.golang.org/protobuf/types/known/durationpb"
 	"google.golang.org/protobuf/types/known/timestamppb"
 	"gorm.io/gorm"
-	"sadlil.com/samples/crud/apis/go/crudapi"
+	"sadlil.com/samples/crud/apis/go/crudapiv1"
 	"sadlil.com/samples/crud/pkg/storage/models"
 )
 
@@ -21,13 +21,13 @@ func NewTodoQuery(db *gorm.DB) *todoQueryImpl {
 	}
 }
 
-func (t *todoQueryImpl) Create(ctx context.Context, todo *crudapi.Todo) (*crudapi.Todo, error) {
+func (t *todoQueryImpl) Create(ctx context.Context, todo *crudapiv1.Todo) (*crudapiv1.Todo, error) {
 	m := &models.Todo{
 		ID:          uuid.NewString(),
 		Name:        todo.GetName(),
 		Description: todo.GetDescription(),
 		Priority:    todo.GetPriority(),
-		Status:      crudapi.TodoStatus_PENDING.String(),
+		Status:      crudapiv1.TodoStatus_TODO_STATUS_PENDING.String(),
 		Deadline:    todo.GetDeadline().AsDuration(),
 	}
 	tx := t.gormDB.WithContext(ctx).Create(m)
@@ -38,21 +38,21 @@ func (t *todoQueryImpl) Create(ctx context.Context, todo *crudapi.Todo) (*crudap
 	return t.GetByID(ctx, m.ID)
 }
 
-func (t *todoQueryImpl) List(ctx context.Context, offset, limit int) ([]*crudapi.Todo, error) {
+func (t *todoQueryImpl) List(ctx context.Context, offset, limit int) ([]*crudapiv1.Todo, error) {
 	var todos []*models.Todo
 	tx := t.gormDB.WithContext(ctx).Offset(offset).Limit(limit).Order("created_at DESC").Find(&todos)
 	if tx.Error != nil {
 		return nil, tx.Error
 	}
 
-	var resp []*crudapi.Todo
+	var resp []*crudapiv1.Todo
 	for _, m := range todos {
-		resp = append(resp, &crudapi.Todo{
+		resp = append(resp, &crudapiv1.Todo{
 			Id:          m.ID,
 			Name:        m.Name,
 			Description: m.Description,
 			Priority:    m.Priority,
-			Status:      crudapi.TodoStatus(crudapi.TodoStatus_value[m.Status]),
+			Status:      crudapiv1.TodoStatus(crudapiv1.TodoStatus_value[m.Status]),
 			CreatedAt:   timestamppb.New(m.CreatedAt),
 			Deadline:    durationpb.New(m.Deadline),
 		})
@@ -60,7 +60,7 @@ func (t *todoQueryImpl) List(ctx context.Context, offset, limit int) ([]*crudapi
 	return resp, nil
 }
 
-func (t *todoQueryImpl) GetByID(ctx context.Context, id string) (*crudapi.Todo, error) {
+func (t *todoQueryImpl) GetByID(ctx context.Context, id string) (*crudapiv1.Todo, error) {
 	m := &models.Todo{
 		ID: id,
 	}
@@ -68,18 +68,18 @@ func (t *todoQueryImpl) GetByID(ctx context.Context, id string) (*crudapi.Todo, 
 	if tx.Error != nil {
 		return nil, tx.Error
 	}
-	return &crudapi.Todo{
+	return &crudapiv1.Todo{
 		Id:          m.ID,
 		Name:        m.Name,
 		Description: m.Description,
 		Priority:    m.Priority,
-		Status:      crudapi.TodoStatus(crudapi.TodoStatus_value[m.Status]),
+		Status:      crudapiv1.TodoStatus(crudapiv1.TodoStatus_value[m.Status]),
 		CreatedAt:   timestamppb.New(m.CreatedAt),
 		Deadline:    durationpb.New(m.Deadline),
 	}, nil
 }
 
-func (t *todoQueryImpl) Update(ctx context.Context, todo *crudapi.Todo) (*crudapi.Todo, error) {
+func (t *todoQueryImpl) Update(ctx context.Context, todo *crudapiv1.Todo) (*crudapiv1.Todo, error) {
 	m := &models.Todo{
 		ID: todo.GetId(),
 	}
@@ -99,12 +99,12 @@ func (t *todoQueryImpl) Update(ctx context.Context, todo *crudapi.Todo) (*crudap
 		return nil, tx.Error
 	}
 
-	return &crudapi.Todo{
+	return &crudapiv1.Todo{
 		Id:          m.ID,
 		Name:        m.Name,
 		Description: m.Description,
 		Priority:    m.Priority,
-		Status:      crudapi.TodoStatus(crudapi.TodoStatus_value[m.Status]),
+		Status:      crudapiv1.TodoStatus(crudapiv1.TodoStatus_value[m.Status]),
 		CreatedAt:   timestamppb.New(m.CreatedAt),
 		Deadline:    durationpb.New(m.Deadline),
 	}, nil

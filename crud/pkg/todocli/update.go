@@ -9,7 +9,7 @@ import (
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
 	"google.golang.org/protobuf/types/known/durationpb"
-	"sadlil.com/samples/crud/apis/go/crudapi"
+	"sadlil.com/samples/crud/apis/go/crudapiv1"
 )
 
 func newUpdateCmd() *cobra.Command {
@@ -39,7 +39,7 @@ func runUpdate(cmd *cobra.Command, args []string) {
 	}
 	defer client.Close()
 
-	resp, err := client.GetTodo(cmd.Root().Context(), &crudapi.GetTodoRequest{
+	resp, err := client.GetTodo(cmd.Root().Context(), &crudapiv1.GetTodoRequest{
 		Id: viper.GetString("id"),
 	})
 	if err != nil {
@@ -65,7 +65,7 @@ func runUpdate(cmd *cobra.Command, args []string) {
 		payload.Deadline = durationpb.New(dl)
 	}
 
-	_, err = client.UpdateTodo(cmd.Root().Context(), &crudapi.UpdateTodoRequest{
+	_, err = client.UpdateTodo(cmd.Root().Context(), &crudapiv1.UpdateTodoRequest{
 		Id:      viper.GetString("id"),
 		Payload: payload,
 	})

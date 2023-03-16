@@ -32,6 +32,9 @@ both grpc and http protocol.
 
 #### API
 
+The service APIs will be defined in protobuf, and can be used to generate code in multiple languages. The service will
+use the generated golang codes for server and client implementations.
+
 ```proto
 service TodoService {
   // CreateTodo RPC creates a new Todo object.

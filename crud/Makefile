@@ -8,7 +8,7 @@ all: gen fmt test install
 
 .PHONY: gen
 gen: gen-proto-go
-	go-bindata -o apis/openapi/specs.go -pkg openapi apis/openapi/apis
+	go-bindata -o apis/openapi/specs.go -pkg openapi apis/openapi/gen
 	go generate ./...
 
 .PHONY: install
@@ -23,19 +23,20 @@ fmt: gen
 	@./hack/scripts/run_fmt.sh
 
 lint:
+	buf lint apis/
 	@golangci-lint run --out-format code-climate | \
 		tee gl-code-quality-report.json | \
 		jq -r '.[] | "\(.location.path):\(.location.lines.begin) \(.description)"'
 	@rm gl-code-quality-report.json
 
 .PHONE: dep
-dep:
+dep: dep-proto
 	go mod download
 	go mod tidy -e
 
 .PHONY: dep.proto
 dep-proto:
-	protodep up -u -f
+	buf mod update apis/
 
 TEST_TIMEOUT = 60
 TEST_PKGS ?= $(shell (go list ./... | grep -v /vendor/))
@@ -51,20 +52,7 @@ test: gen
 	@go test -timeout $(TEST_TIMEOUT)s $(TEST_ARGS) $(TEST_PKGS)
 
 gen-proto-go:
-	@protoc -I . \
-	   -I third_party/protos/googleapis \
-	   -I third_party/protos/envoyproxy \
-	   -I third_party/protos \
-       --go_out ./apis/go \
-       --go-grpc_out ./apis/go \
-       --validate_out="lang=go:./apis/go" \
-       --grpc-gateway_out ./apis/go \
-       --grpc-gateway_opt logtostderr=true \
-       --grpc-gateway_opt generate_unbound_methods=true \
-       --openapiv2_out ./apis/openapi/apis \
-       --openapiv2_opt logtostderr=true,allow_merge=true,use_go_templates=true \
-       apis/*.proto
-	@mv apis/openapi/apis/apidocs.swagger.json apis/openapi/apis/swagger.json
+	buf generate apis/ --template=apis/buf.crudapi.yaml
 
 clean:
 	go clean -i -r -x

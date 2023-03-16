@@ -12,7 +12,7 @@ import (
 	"google.golang.org/grpc/status"
 	"google.golang.org/protobuf/types/known/emptypb"
 	"gorm.io/gorm"
-	"sadlil.com/samples/crud/apis/go/crudapi"
+	"sadlil.com/samples/crud/apis/go/crudapiv1"
 	"sadlil.com/samples/crud/pkg/storage"
 	"sadlil.com/samples/golib/cache"
 	"sadlil.com/samples/golib/cache/memory"
@@ -23,14 +23,14 @@ const (
 	defaultLimit = 1000
 )
 
-var _ crudapi.TodoServiceServer = new(TodoServiceImpl)
+var _ crudapiv1.TodoServiceServer = new(TodoServiceImpl)
 
 type TodoServiceImpl struct {
 	store storage.Store
 	cache cache.Store
 	opt   TodoServiceOption
 
-	crudapi.UnimplementedTodoServiceServer
+	crudapiv1.UnimplementedTodoServiceServer
 }
 
 type TodoServiceOption struct {
@@ -59,23 +59,23 @@ func NewToDoService(opt TodoServiceOption) *TodoServiceImpl {
 	}
 }
 
-func (t *TodoServiceImpl) CreateTodo(ctx context.Context, req *crudapi.CreateTodoRequest) (*crudapi.CreateTodoResponse, error) {
+func (t *TodoServiceImpl) CreateTodo(ctx context.Context, req *crudapiv1.CreateTodoRequest) (*crudapiv1.CreateTodoResponse, error) {
 	todo, err := t.store.Todo().Create(ctx, req.GetTodo())
 	if err != nil {
 		glog.Errorf("db.Create failed, reason %v", err)
 		return nil, status.Errorf(codes.Internal, "db.Create failed: %v", err)
 	}
-	return &crudapi.CreateTodoResponse{
+	return &crudapiv1.CreateTodoResponse{
 		Todo: todo,
 	}, nil
 }
 
-func (t *TodoServiceImpl) ListTodo(ctx context.Context, req *crudapi.ListTodoRequest) (*crudapi.ListTodoResponse, error) {
+func (t *TodoServiceImpl) ListTodo(ctx context.Context, req *crudapiv1.ListTodoRequest) (*crudapiv1.ListTodoResponse, error) {
 	if req.GetLimit() == 0 {
 		req.Limit = defaultLimit
 	}
 
-	todos := make([]*crudapi.Todo, 0)
+	todos := make([]*crudapiv1.Todo, 0)
 	// Try featching from the cache first, if not found in cache read from the database.
 	// I understand we have support for memory as storage backend, and putting a cache infront of
 	// memory store doesn't make sense. But This is a sample of doing things, in prodduction we are defenetly
@@ -102,13 +102,13 @@ func (t *TodoServiceImpl) ListTodo(ctx context.Context, req *crudapi.ListTodoReq
 		return nil, err
 	}
 
-	return &crudapi.ListTodoResponse{
+	return &crudapiv1.ListTodoResponse{
 		Todos: todos,
 	}, nil
 }
 
-func (t *TodoServiceImpl) GetTodo(ctx context.Context, req *crudapi.GetTodoRequest) (*crudapi.GetTodoResponse, error) {
-	todo := new(crudapi.Todo)
+func (t *TodoServiceImpl) GetTodo(ctx context.Context, req *crudapiv1.GetTodoRequest) (*crudapiv1.GetTodoResponse, error) {
+	todo := new(crudapiv1.Todo)
 	err := t.cache.Fetch(ctx,
 		fmt.Sprintf("todo:get:id:%v", req.Id),
 		todo,
@@ -131,12 +131,12 @@ func (t *TodoServiceImpl) GetTodo(ctx context.Context, req *crudapi.GetTodoReque
 		return nil, err
 	}
 
-	return &crudapi.GetTodoResponse{
+	return &crudapiv1.GetTodoResponse{
 		Todo: todo,
 	}, nil
 }
 
-func (t *TodoServiceImpl) UpdateTodo(ctx context.Context, req *crudapi.UpdateTodoRequest) (*crudapi.UpdateTodoResponse, error) {
+func (t *TodoServiceImpl) UpdateTodo(ctx context.Context, req *crudapiv1.UpdateTodoRequest) (*crudapiv1.UpdateTodoResponse, error) {
 	req.Payload.Id = req.Id
 	todo, err := t.store.Todo().Update(ctx, req.GetPayload())
 	if err != nil {
@@ -146,12 +146,12 @@ func (t *TodoServiceImpl) UpdateTodo(ctx context.Context, req *crudapi.UpdateTod
 
 	_ = t.cache.Delete(ctx, fmt.Sprintf("todo:get:id:%v", req.Id))
 
-	return &crudapi.UpdateTodoResponse{
+	return &crudapiv1.UpdateTodoResponse{
 		Todo: todo,
 	}, nil
 }
 
-func (t *TodoServiceImpl) DeleteTodo(ctx context.Context, req *crudapi.DeleteTodoRequest) (*emptypb.Empty, error) {
+func (t *TodoServiceImpl) DeleteTodo(ctx context.Context, req *crudapiv1.DeleteTodoRequest) (*emptypb.Empty, error) {
 	err := t.store.Todo().Delete(ctx, req.GetId())
 	if err != nil {
 		glog.Errorf("db.Delete failed, reason %v", err)

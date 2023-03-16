@@ -10,7 +10,7 @@ import (
 	"github.com/patrickmn/go-cache"
 	"google.golang.org/protobuf/types/known/durationpb"
 	"google.golang.org/protobuf/types/known/timestamppb"
-	"sadlil.com/samples/crud/apis/go/crudapi"
+	"sadlil.com/samples/crud/apis/go/crudapiv1"
 	"sadlil.com/samples/crud/pkg/storage/models"
 )
 
@@ -26,13 +26,13 @@ func NewTodoQuery() *todoQueryImpl {
 	}
 }
 
-func (t *todoQueryImpl) Create(ctx context.Context, todo *crudapi.Todo) (*crudapi.Todo, error) {
+func (t *todoQueryImpl) Create(ctx context.Context, todo *crudapiv1.Todo) (*crudapiv1.Todo, error) {
 	m := &models.Todo{
 		ID:          uuid.NewString(),
 		Name:        todo.GetName(),
 		Description: todo.GetDescription(),
 		Priority:    todo.GetPriority(),
-		Status:      crudapi.TodoStatus_PENDING.String(),
+		Status:      crudapiv1.TodoStatus_TODO_STATUS_PENDING.String(),
 		Deadline:    todo.GetDeadline().AsDuration(),
 		CreatedAt:   time.Now(),
 		UpdatedAt:   time.Now(),
@@ -42,35 +42,35 @@ func (t *todoQueryImpl) Create(ctx context.Context, todo *crudapi.Todo) (*crudap
 	if err != nil {
 		return nil, err
 	}
-	return &crudapi.Todo{
+	return &crudapiv1.Todo{
 		Id:          m.ID,
 		Name:        m.Name,
 		Description: m.Description,
 		Priority:    m.Priority,
-		Status:      crudapi.TodoStatus(crudapi.TodoStatus_value[m.Status]),
+		Status:      crudapiv1.TodoStatus(crudapiv1.TodoStatus_value[m.Status]),
 		CreatedAt:   timestamppb.New(m.CreatedAt),
 		Deadline:    durationpb.New(m.Deadline),
 	}, nil
 }
 
-func (t *todoQueryImpl) List(ctx context.Context, offset, limit int) ([]*crudapi.Todo, error) {
+func (t *todoQueryImpl) List(ctx context.Context, offset, limit int) ([]*crudapiv1.Todo, error) {
 	items := t.c.Items()
 	if len(items) == 0 {
 		return nil, fmt.Errorf("err: no data")
 	}
 
-	var resp []*crudapi.Todo
+	var resp []*crudapiv1.Todo
 	for _, it := range items {
 		m, ok := it.Object.(*models.Todo)
 		if !ok {
 			continue
 		}
-		resp = append(resp, &crudapi.Todo{
+		resp = append(resp, &crudapiv1.Todo{
 			Id:          m.ID,
 			Name:        m.Name,
 			Description: m.Description,
 			Priority:    m.Priority,
-			Status:      crudapi.TodoStatus(crudapi.TodoStatus_value[m.Status]),
+			Status:      crudapiv1.TodoStatus(crudapiv1.TodoStatus_value[m.Status]),
 			CreatedAt:   timestamppb.New(m.CreatedAt),
 			Deadline:    durationpb.New(m.Deadline),
 		})
@@ -95,7 +95,7 @@ func (t *todoQueryImpl) List(ctx context.Context, offset, limit int) ([]*crudapi
 	return resp, nil
 }
 
-func (t *todoQueryImpl) GetByID(ctx context.Context, id string) (*crudapi.Todo, error) {
+func (t *todoQueryImpl) GetByID(ctx context.Context, id string) (*crudapiv1.Todo, error) {
 	item, found := t.c.Get(t.key(id))
 	if !found {
 		return nil, fmt.Errorf("err: no data")
@@ -105,18 +105,18 @@ func (t *todoQueryImpl) GetByID(ctx context.Context, id string) (*crudapi.Todo, 
 	if !ok {
 		return nil, fmt.Errorf("err: invalid data")
 	}
-	return &crudapi.Todo{
+	return &crudapiv1.Todo{
 		Id:          m.ID,
 		Name:        m.Name,
 		Description: m.Description,
 		Priority:    m.Priority,
-		Status:      crudapi.TodoStatus(crudapi.TodoStatus_value[m.Status]),
+		Status:      crudapiv1.TodoStatus(crudapiv1.TodoStatus_value[m.Status]),
 		CreatedAt:   timestamppb.New(m.CreatedAt),
 		Deadline:    durationpb.New(m.Deadline),
 	}, nil
 }
 
-func (t *todoQueryImpl) Update(ctx context.Context, todo *crudapi.Todo) (*crudapi.Todo, error) {
+func (t *todoQueryImpl) Update(ctx context.Context, todo *crudapiv1.Todo) (*crudapiv1.Todo, error) {
 	item, found := t.c.Get(t.key(todo.Id))
 	if !found {
 		return nil, fmt.Errorf("err: no data")
@@ -149,12 +149,12 @@ func (t *todoQueryImpl) Update(ctx context.Context, todo *crudapi.Todo) (*crudap
 	}
 
 	t.c.Set(t.key(todo.Id), m, 0)
-	return &crudapi.Todo{
+	return &crudapiv1.Todo{
 		Id:          m.ID,
 		Name:        m.Name,
 		Description: m.Description,
 		Priority:    m.Priority,
-		Status:      crudapi.TodoStatus(crudapi.TodoStatus_value[m.Status]),
+		Status:      crudapiv1.TodoStatus(crudapiv1.TodoStatus_value[m.Status]),
 		CreatedAt:   timestamppb.New(m.CreatedAt),
 		Deadline:    durationpb.New(m.Deadline),
 	}, nil

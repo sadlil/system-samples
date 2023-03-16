@@ -9,7 +9,7 @@ import (
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
 	"google.golang.org/protobuf/types/known/durationpb"
-	"sadlil.com/samples/crud/apis/go/crudapi"
+	"sadlil.com/samples/crud/apis/go/crudapiv1"
 )
 
 func newCreateCmd() *cobra.Command {
@@ -39,8 +39,8 @@ func runCreate(cmd *cobra.Command, args []string) {
 	}
 	defer client.Close()
 
-	_, err = client.CreateTodo(cmd.Root().Context(), &crudapi.CreateTodoRequest{
-		Todo: &crudapi.Todo{
+	_, err = client.CreateTodo(cmd.Root().Context(), &crudapiv1.CreateTodoRequest{
+		Todo: &crudapiv1.Todo{
 			Name:        viper.GetString("name"),
 			Description: viper.GetString("desc"),
 			Priority:    viper.GetString("priority"),

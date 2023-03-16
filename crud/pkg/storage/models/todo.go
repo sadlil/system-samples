@@ -5,7 +5,7 @@ import (
 	"time"
 
 	"gorm.io/gorm"
-	"sadlil.com/samples/crud/apis/go/crudapi"
+	"sadlil.com/samples/crud/apis/go/crudapiv1"
 )
 
 // Todo represents a Todo item in the database.
@@ -42,19 +42,19 @@ func (Todo) TableName() string {
 type TodoQuery interface {
 	// Create creates a new Todo record in the database and returns the created Todo record.
 	// It takes a context and a pointer to a Todo object to be created.
-	Create(ctx context.Context, todo *crudapi.Todo) (*crudapi.Todo, error)
+	Create(ctx context.Context, todo *crudapiv1.Todo) (*crudapiv1.Todo, error)
 
 	// List returns a list of Todo records from the database.
 	// It takes a context, an offset, and a limit to specify the range of records to return.
-	List(ctx context.Context, offset, limit int) ([]*crudapi.Todo, error)
+	List(ctx context.Context, offset, limit int) ([]*crudapiv1.Todo, error)
 
 	// GetByID returns a single Todo record from the database by its ID.
 	// It takes a context and the ID of the Todo record to retrieve.
-	GetByID(ctx context.Context, id string) (*crudapi.Todo, error)
+	GetByID(ctx context.Context, id string) (*crudapiv1.Todo, error)
 
 	// Update updates an existing Todo record in the database and returns the updated record.
 	// It takes a context and a pointer to a Todo object to be updated.
-	Update(ctx context.Context, todo *crudapi.Todo) (*crudapi.Todo, error)
+	Update(ctx context.Context, todo *crudapiv1.Todo) (*crudapiv1.Todo, error)
 
 	// Delete deletes a single Todo record from the database by its ID.
 	// It takes a context and the ID of the Todo record to be deleted.

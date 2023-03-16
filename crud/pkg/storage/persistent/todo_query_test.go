@@ -13,7 +13,7 @@ import (
 	"google.golang.org/protobuf/types/known/durationpb"
 	"gorm.io/driver/sqlite"
 	"gorm.io/gorm"
-	"sadlil.com/samples/crud/apis/go/crudapi"
+	"sadlil.com/samples/crud/apis/go/crudapiv1"
 	"sadlil.com/samples/crud/pkg/storage/models"
 )
 
@@ -23,11 +23,11 @@ import (
 func TestPersistentStoreCreate(t *testing.T) {
 	store, _ := getTestDB(t)
 
-	in := &crudapi.Todo{
+	in := &crudapiv1.Todo{
 		Name:        "TODO",
 		Description: "Hello Store!",
 		Priority:    "P1",
-		Status:      crudapi.TodoStatus(crudapi.TodoStatus_value["PENDING"]),
+		Status:      crudapiv1.TodoStatus(crudapiv1.TodoStatus_value["PENDING"]),
 		Deadline:    durationpb.New(time.Hour),
 	}
 	resp, err := store.Create(context.TODO(), in)
@@ -207,11 +207,11 @@ func TestPersistentStoreGet(t *testing.T) {
 func TestPersistentStoreUpdate(t *testing.T) {
 	store, _ := getTestDB(t)
 
-	in := &crudapi.Todo{
+	in := &crudapiv1.Todo{
 		Name:        "TODO",
 		Description: "Hello Store!",
 		Priority:    "P1",
-		Status:      crudapi.TodoStatus(crudapi.TodoStatus_value["PENDING"]),
+		Status:      crudapiv1.TodoStatus(crudapiv1.TodoStatus_value["PENDING"]),
 		Deadline:    durationpb.New(time.Hour),
 	}
 	resp, err := store.Create(context.TODO(), in)
@@ -219,7 +219,7 @@ func TestPersistentStoreUpdate(t *testing.T) {
 		t.Fatalf("store.Create: got %v, expected nil error", err)
 	}
 
-	resp.Status = crudapi.TodoStatus_DONE
+	resp.Status = crudapiv1.TodoStatus_TODO_STATUS_DONE
 	resp, err = store.Update(context.TODO(), resp)
 	if err != nil {
 		t.Fatalf("store.Create: got %v, expected nil error", err)
@@ -230,19 +230,19 @@ func TestPersistentStoreUpdate(t *testing.T) {
 		t.Fatalf("store.Create: got %v, expected nil error", err)
 	}
 
-	if resp.Status != crudapi.TodoStatus_DONE {
-		t.Errorf("resp.Status: got %v, want %v", resp.Status.String(), crudapi.TodoStatus_DONE.String())
+	if resp.Status != crudapiv1.TodoStatus_TODO_STATUS_DONE {
+		t.Errorf("resp.Status: got %v, want %v", resp.Status.String(), crudapiv1.TodoStatus_TODO_STATUS_DONE.String())
 	}
 }
 
 func TestPersistentStoreDelete(t *testing.T) {
 	store, testDB := getTestDB(t)
 
-	in := &crudapi.Todo{
+	in := &crudapiv1.Todo{
 		Name:        "TODO",
 		Description: "Hello Store!",
 		Priority:    "P1",
-		Status:      crudapi.TodoStatus(crudapi.TodoStatus_value["PENDING"]),
+		Status:      crudapiv1.TodoStatus(crudapiv1.TodoStatus_value["PENDING"]),
 		Deadline:    durationpb.New(time.Hour),
 	}
 	resp, err := store.Create(context.TODO(), in)

@@ -6,7 +6,7 @@ import (
 
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
-	"sadlil.com/samples/crud/apis/go/crudapi"
+	"sadlil.com/samples/crud/apis/go/crudapiv1"
 )
 
 func newDeleteCmd() *cobra.Command {
@@ -32,7 +32,7 @@ func runDelete(cmd *cobra.Command, args []string) {
 		os.Exit(1)
 	}
 
-	_, err = client.DeleteTodo(cmd.Root().Context(), &crudapi.DeleteTodoRequest{
+	_, err = client.DeleteTodo(cmd.Root().Context(), &crudapiv1.DeleteTodoRequest{
 		Id: args[0],
 	})
 	if err != nil {
