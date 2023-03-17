@@ -1,0 +1,34 @@
+version: v1
+managed:
+  enabled: true
+  java_multiple_files: true
+  optimize_for: CODE_SIZE
+  go_package_prefix:
+    default: sadlil.com/samples/crud/apis/go/crudapipb
+    except:
+      - buf.build/googleapis/googleapis
+      - buf.build/grpc-ecosystem/grpc-gateway
+      - buf.build/envoyproxy/protoc-gen-validate
+plugins:
+  - plugin: buf.build/protocolbuffers/go
+    out: apis/go/crudapiv1
+    opt:
+      - paths=source_relative
+  - plugin: buf.build/grpc/go
+    out: apis/go/crudapiv1
+    opt:
+      - paths=source_relative
+  - plugin: buf.build/grpc-ecosystem/gateway
+    out: apis/go/crudapiv1
+    opt:
+      - paths=source_relative
+      - generate_unbound_methods=true
+  - plugin: buf.build/bufbuild/validate-go
+    out: apis/go/crudapiv1
+    opt:
+      - paths=source_relative
+  - plugin: buf.build/grpc-ecosystem/openapiv2
+    out: apis/openapi/gen
+    opt:
+      - logtostderr=true
+      - use_go_templates=true
