@@ -92,7 +92,7 @@ func apisOpenapiGenCrudapiSwaggerJson() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "apis/openapi/gen/crudapi.swagger.json", size: 8802, mode: os.FileMode(420), modTime: time.Unix(1678930461, 0)}
+	info := bindataFileInfo{name: "apis/openapi/gen/crudapi.swagger.json", size: 8802, mode: os.FileMode(420), modTime: time.Unix(1679072544, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
