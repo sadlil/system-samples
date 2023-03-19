@@ -1,6 +1,7 @@
 # Application Demo
 
 1. Compile, install and Run the application using `make install` and `crud-apiserver --logtostderr --storage_type=memory`. This will run the crud-apiserver binary with memory as storage backend.
+<br><br>
 ![Run](img/crud_1_run.png "Run")
 
 2. Checkout the Helathz, Statusz, Metrics and Debug URLs for the server binary in -
@@ -47,20 +48,26 @@
     Use "todocli [command] --help" for more information about a command.
     ```
 
-5. Create any todo using `todocli create --deadline=1h --desc='Hello World 1' --priority=P2 --name="Hello World 1`
+5. Create any todo using `todocli create --deadline=1h --desc='Hello World 1' --priority=P2 --name="Hello World 1`.
+<br><br>
 ![Create](img/crud_2_create_todo.png "Create")
 
 6. Read the details of todo by `todocli get uuid`.
+<br><br>
 ![Get](img/crud_3_get.png "Get")
 
 7. List all todos using `todocli list`.
+<br><br>
 ![List](img/crud_4_list.png "List")
 
 8. Update todo using `todocli update --id uuid --name 'Hello World Updated'`.
+<br><br>
 ![Update](img/crud_5_update.png "Update")
 
 9. Delete Todo using `todocli delete uuid`.
+<br><br>
 ![Delete](img/crud_6_delete.png "Delete")
 
 10. Mark todo as done `todocli done --id uuid`.
+<br><br>
 ![Done](img/crud_7_done.png "Done")

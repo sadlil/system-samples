@@ -9,43 +9,43 @@ The service uses make with `Makefile` to run lint, build and test rules for the 
 
 - Run go fmt and lint
 
-```sh
-make fmt
-```
+    ```sh
+    make fmt
+    ```
 
 - Generate Codes
 
-```sh
-make gen
-```
+    ```sh
+    make gen
+    ```
 
 - Install Code dependencies
 
-```sh
-make dep
-```
+    ```sh
+    make dep
+    ```
 
 - Build Local Binary
 
-```sh
-make install
-```
+    ```sh
+    make install
+    ```
 
 The above command will create a `crud-server` and `todocli` in GOPATH. That can be run using `crud-server --logtostderr`.
 
 - Build Docker Image
 
-```sh
-make build.docker VERSION=v0.1
-```
+    ```sh
+    make build.docker VERSION=v0.1
+    ```
 
 The above command will create a docker image with tag `sadlil.com/samples/crud:${VERSION}`.
 
 - Run tests
 
-```sh
-make test
-```
+    ```sh
+    make test
+    ```
 
 Above command will run the unit tests for the codebase.
 

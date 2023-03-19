@@ -23,7 +23,7 @@ This system does not consider user management, authentication or session managem
 
 ## Application Overview
 
-Checkout the application overview and [how the app;ication works here](docs/app_demo.md).
+Checkout the application demo and how the application work [here](docs/app_demo.md).
 
 ## Highlevel design
 
