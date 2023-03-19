@@ -18,3 +18,5 @@ apis/js/apis/node_modules/
 *.test
 # Output of the go coverage tool, specifically when used with LiteIDE
 *.out
+
+.DS_Store
