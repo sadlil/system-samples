@@ -38,6 +38,13 @@ dep: dep-proto
 dep-proto:
 	buf mod update apis/
 
+gen-proto-go:
+	buf generate apis/ --template=apis/buf.crudapi.yaml
+
+# Build related commands
+build.docker:
+	docker build -t sadlil.com/samples/crud:$(VERSION) -f hack/docker/Dockerfile ./..
+
 TEST_TIMEOUT = 60
 TEST_PKGS ?= $(shell (go list ./... | grep -v /vendor/))
 TEST_TARGETS := test-short test-verbose test-race test-cover test-cover-report
@@ -51,14 +58,6 @@ $(TEST_TARGETS): test
 test: gen
 	@go test -timeout $(TEST_TIMEOUT)s $(TEST_ARGS) $(TEST_PKGS)
 
-gen-proto-go:
-	buf generate apis/ --template=apis/buf.crudapi.yaml
-
 clean:
 	go clean -i -r -x
 	rm gl-code-quality-report.json
-
-
-# Build related commands
-build.docker:
-	docker build -t sadlil.com/samples/crud:$(VERSION) -f hack/docker/Dockerfile ./..

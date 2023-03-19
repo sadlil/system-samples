@@ -23,7 +23,7 @@ While it is ideal for each project to have its own dedicated repository, we have
 
 ## Completed Projects
 
-- [CRUD](crud/README.md): Sample TODO application that demonstrates Golang best practices, testing, and server monitoring techniques. Built with grpc and grpc-gateway, the project showcases a clear seperation between service handlers and storage backends. The application supports pluggable storage backends, including mysql, sqlite, and in-memory storage. Includes an additional server support to expose endpoints for healthz, statusz, pprof, and prometheus metrics. The API definition and request validation are based on Protocol Buffers. The project supports SQL migration via sql-migrate for mysql and sqlite. Additionally, the project includes a caching layer via Redis/Memory before persistent storages. This projec also includes script to build Docker images and deployment manifests for Kubernetes.
+- [CRUD](crud/README.md): Sample TODO application that demonstrates Golang best practices, testing, and server monitoring techniques. Built with grpc and grpc-gateway, the project showcases a clear seperation between service handlers and storage backends. The application supports pluggable storage backends, including mysql, sqlite, and in-memory storage. Includes an additional server support to expose endpoints for healthz, statusz, pprof, and prometheus metrics. The API definition and request validation are based on Protocol Buffers. The project supports SQL migration via sql-migrate for mysql and sqlite. Additionally, the project includes a caching layer via Redis/Memory before persistent storages. This projec also includes script to build Docker images and deployment manifests for Kubernetes. [Demo](crud/docs/app_demo.md).
 
 ## Libraries
 
@@ -31,6 +31,7 @@ While it is ideal for each project to have its own dedicated repository, we have
 
 ## Planned Projects
 
+- [Periscope](periscope/README.md) - Monitoring and Logging for Kubernetes Workloads with Infrastructrue as Code.
 - [GoLink](golink/README.md) - Example URL shortener service.
 - [Gossip](gossip/README.md) - Chat application with cli client.
 - [LogRaft](lograft/README.md) - Distributed Log delivery service.

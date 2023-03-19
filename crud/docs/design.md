@@ -76,22 +76,12 @@ service TodoService {
 }
 ```
 
-#### gRPC
-
-#### HTTP
-
-##### OpenAPI Specs
-
 ### Data
 
-### Storage Module
+Service should be able to use mysql for production and memory storage support for testing purposes. The storgare should be
+pluggable and can be changed at runtime.
 
 ### Caching strategy
 
-### Monitoring
-
-### Client
-
-#### Todo CLI
-
-## Alternative Considered
+Service implements a layer of caching before accessing reading the database. The cache can be plugablge and multiple layer as well.
+Production cache should depende on Redis cluster.
