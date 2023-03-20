@@ -23,3 +23,7 @@ provider "helm" {
 module "helm" {
   source = "./helm"
 }
+
+module "service" {
+  source = "./service"
+}
