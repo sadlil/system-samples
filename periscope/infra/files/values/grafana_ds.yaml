@@ -1,0 +1,7 @@
+grafana:
+  additionalDataSources:
+    - name: grafana-loki
+      type: loki
+      orgId: 1
+      url: "http://kube-grafana-loki.monitoring:3100"
+      version: 1
