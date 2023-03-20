@@ -1,0 +1,3 @@
+module "pometheus" {
+  source = "./prometheus"
+}
