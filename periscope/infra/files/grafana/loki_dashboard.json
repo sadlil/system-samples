@@ -1,40 +1,4 @@
 {
-    "__inputs": [
-        {
-            "name": "grafana-loki",
-            "label": "Loki",
-            "description": "",
-            "type": "datasource",
-            "pluginId": "loki",
-            "pluginName": "Loki"
-        }
-    ],
-    "__requires": [
-        {
-            "type": "grafana",
-            "id": "grafana",
-            "name": "Grafana",
-            "version": "7.1.0"
-        },
-        {
-            "type": "panel",
-            "id": "graph",
-            "name": "Graph",
-            "version": ""
-        },
-        {
-            "type": "panel",
-            "id": "logs",
-            "name": "Logs",
-            "version": ""
-        },
-        {
-            "type": "datasource",
-            "id": "loki",
-            "name": "Loki",
-            "version": "1.0.0"
-        }
-    ],
     "annotations": {
         "list": [
             {
@@ -49,7 +13,7 @@
             }
         ]
     },
-    "description": "Log Viewer Dashboard for Loki",
+    "description": "Loki - Log Dashboards",
     "editable": false,
     "gnetId": 13639,
     "graphTooltip": 0,
@@ -65,7 +29,7 @@
             "targetBlank": true,
             "title": "View In Explore",
             "type": "link",
-            "url": "/explore?orgId=1&left=[\"now-1h\",\"now\",\"Loki\",{\"expr\":\"{job=\\\"$app\\\"}\"},{\"ui\":[true,true,true,\"none\"]}]"
+            "url": "/explore?orgId=1&left=[\"now-1h\",\"now\",\"grafana-loki\",{\"expr\":\"{job=\\\"$app\\\"}\"},{\"ui\":[true,true,true,\"none\"]}]"
         },
         {
             "$$hashKey": "object:61",
@@ -83,7 +47,10 @@
             "bars": true,
             "dashLength": 10,
             "dashes": false,
-            "datasource": "${DS_LOKI}",
+            "datasource": {
+                "type": "loki",
+                "uid": "grafana-loki"
+            },
             "fieldConfig": {
                 "defaults": {
                     "custom": {},
@@ -173,7 +140,10 @@
             }
         },
         {
-            "datasource": "${DS_LOKI}",
+            "datasource": {
+                "type": "loki",
+                "uid": "grafana-loki"
+            },
             "fieldConfig": {
                 "defaults": {
                     "custom": {}
@@ -196,7 +166,7 @@
             },
             "targets": [
                 {
-                    "expr": "{job=\"$app\"} |= \"$search\" | logfmt",
+                    "expr": "{job=\"$app\"} | json | line_format \"{{.log}}\" |= \"$search\"",
                     "hide": false,
                     "legendFormat": "",
                     "refId": "A"
@@ -217,8 +187,15 @@
         "list": [
             {
                 "allValue": null,
-                "current": {},
-                "datasource": "${DS_LOKI}",
+                "current": {
+                    "selected": false,
+                    "text": "default/periscope-service",
+                    "value": "default/periscope-service"
+                },
+                "datasource": {
+                    "type": "loki",
+                    "uid": "grafana-loki"
+                },
                 "definition": "label_values(job)",
                 "hide": 0,
                 "includeAll": false,
@@ -226,7 +203,12 @@
                 "multi": false,
                 "name": "app",
                 "options": [],
-                "query": "label_values(job)",
+                "query": {
+                    "label": "job",
+                    "refId": "LokiVariableQueryEditor-VariableQuery",
+                    "stream": "",
+                    "type": 1
+                },
                 "refresh": 1,
                 "regex": "",
                 "skipUrlSync": false,
