@@ -4,7 +4,7 @@ variable "namespace" {
 
 resource "kubernetes_config_map" "example" {
   metadata {
-    name = "grafana-custom-dashboards"
+    name      = "grafana-custom-dashboards"
     namespace = var.namespace
     labels = {
       "grafana_dashboard" = "1"
@@ -12,7 +12,7 @@ resource "kubernetes_config_map" "example" {
   }
 
   data = {
-    "loki_dashboard.json" = "${file("files/grafana/loki_dashboard.json")}"
+    "loki_dashboard.json"      = "${file("files/grafana/loki_dashboard.json")}"
     "periscope_dashboard.json" = "${file("files/grafana/periscope_dashboard.json")}"
   }
 }

@@ -57,7 +57,7 @@ resource "kubernetes_service" "periscope_service_service" {
     name = "periscope-service"
     labels = {
       "k8s.io/app" = "periscope-service"
-      "prometheus.io/scrape": "true"
+      "prometheus.io/scrape" : "true"
     }
   }
   spec {
@@ -65,7 +65,7 @@ resource "kubernetes_service" "periscope_service_service" {
       "k8s.io/app" = "periscope-service"
     }
     port {
-      name = "metrics"
+      name        = "metrics"
       port        = 6443
       target_port = 6443
     }
