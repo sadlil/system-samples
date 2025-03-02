@@ -3,10 +3,10 @@ package grpctransport
 import (
 	"context"
 
+	"github.com/sadlil/system-samples/crud/apis/go/crudapiv1"
+	"github.com/sadlil/system-samples/crud/pkg/clients"
 	"google.golang.org/grpc"
 	"google.golang.org/protobuf/types/known/emptypb"
-	"sadlil.com/samples/crud/apis/go/crudapiv1"
-	"sadlil.com/samples/crud/pkg/clients"
 )
 
 // Client represents a gRPC client

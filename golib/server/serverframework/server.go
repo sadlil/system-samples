@@ -13,11 +13,11 @@ import (
 	grpcprom "github.com/grpc-ecosystem/go-grpc-prometheus"
 	"github.com/grpc-ecosystem/grpc-gateway/v2/runtime"
 	assetfs "github.com/philips/go-bindata-assetfs"
+	"github.com/sadlil/system-samples/golib/server/serverframework/rpcregistry"
+	"github.com/sadlil/system-samples/golib/server/statserver"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials/insecure"
 	"google.golang.org/protobuf/encoding/protojson"
-	"sadlil.com/samples/golib/server/serverframework/rpcregistry"
-	"sadlil.com/samples/golib/server/statserver"
 )
 
 type Server struct {

@@ -2,10 +2,10 @@ package storage
 
 import (
 	"github.com/golang/glog"
+	"github.com/sadlil/system-samples/crud/pkg/storage/memory"
+	"github.com/sadlil/system-samples/crud/pkg/storage/models"
+	"github.com/sadlil/system-samples/crud/pkg/storage/persistent"
 	"gorm.io/gorm"
-	"sadlil.com/samples/crud/pkg/storage/memory"
-	"sadlil.com/samples/crud/pkg/storage/models"
-	"sadlil.com/samples/crud/pkg/storage/persistent"
 )
 
 // Store is an interface that abstracts the query functionalities required
@@ -16,10 +16,8 @@ type Store interface {
 	Todo() models.TodoQuery
 }
 
-var (
-	// global is a global state variable that will hold the store.
-	global *crudStoreImpl
-)
+// global is a global state variable that will hold the store.
+var global *crudStoreImpl
 
 type crudStoreImpl struct {
 	todoQuery models.TodoQuery

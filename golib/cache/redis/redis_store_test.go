@@ -9,7 +9,7 @@ import (
 
 	"github.com/alicebob/miniredis/v2"
 	"github.com/redis/go-redis/v9"
-	"sadlil.com/samples/golib/cache"
+	"github.com/sadlil/system-samples/golib/cache"
 )
 
 type redisStoreValue struct {

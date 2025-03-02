@@ -14,7 +14,7 @@ fi
 goimports -w .
 gofmt -s -w .
 
-prefix=sadlil.com/samples/sshproxy
+prefix=github.com/sadlil/system-samples/sshproxy
 DIRs=$(go list ./... | grep -v vendor/)
 for dir in ${DIRs}
     do

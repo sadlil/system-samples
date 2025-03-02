@@ -4,11 +4,11 @@ import (
 	"context"
 
 	"github.com/google/uuid"
+	"github.com/sadlil/system-samples/crud/apis/go/crudapiv1"
+	"github.com/sadlil/system-samples/crud/pkg/storage/models"
 	"google.golang.org/protobuf/types/known/durationpb"
 	"google.golang.org/protobuf/types/known/timestamppb"
 	"gorm.io/gorm"
-	"sadlil.com/samples/crud/apis/go/crudapiv1"
-	"sadlil.com/samples/crud/pkg/storage/models"
 )
 
 type todoQueryImpl struct {

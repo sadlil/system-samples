@@ -9,8 +9,8 @@ import (
 
 	"github.com/jinzhu/copier"
 	"github.com/redis/go-redis/v9"
+	"github.com/sadlil/system-samples/golib/cache"
 	"golang.org/x/sync/singleflight"
-	"sadlil.com/samples/golib/cache"
 )
 
 type StoreConfig struct {
@@ -51,7 +51,6 @@ func (r *redisStore) Get(ctx context.Context, key string, obj any) error {
 		return err
 	}
 	return entryObj.Unmarshal(obj)
-
 }
 
 func (r *redisStore) Set(ctx context.Context, key string, obj any, opt *cache.Option) error {
@@ -65,7 +64,6 @@ func (r *redisStore) Set(ctx context.Context, key string, obj any, opt *cache.Op
 		return err
 	}
 	return r.client.Set(ctx, r.cfg.NamespacedKey(key), data, opt.Expiry).Err()
-
 }
 
 func (r *redisStore) Delete(ctx context.Context, key string) error {

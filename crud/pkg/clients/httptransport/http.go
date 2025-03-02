@@ -10,12 +10,12 @@ import (
 	"time"
 
 	"github.com/golang/glog"
+	"github.com/sadlil/system-samples/crud/apis/go/crudapiv1"
+	"github.com/sadlil/system-samples/crud/pkg/clients"
 	"google.golang.org/genproto/googleapis/rpc/status"
 	"google.golang.org/protobuf/encoding/protojson"
 	"google.golang.org/protobuf/proto"
 	"google.golang.org/protobuf/types/known/emptypb"
-	"sadlil.com/samples/crud/apis/go/crudapiv1"
-	"sadlil.com/samples/crud/pkg/clients"
 )
 
 type Client struct {

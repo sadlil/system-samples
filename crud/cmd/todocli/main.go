@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"os"
 
-	"sadlil.com/samples/crud/pkg/todocli"
+	"github.com/sadlil/system-samples/crud/pkg/todocli"
 )
 
 func main() {

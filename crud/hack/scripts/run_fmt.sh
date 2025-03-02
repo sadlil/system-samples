@@ -14,7 +14,7 @@ fi
 goimports -w .
 gofmt -s -w .
 
-prefix=sadlil.com/samples/crud
+prefix=github.com/sadlil/system-samples/crud
 DIRs=$(go list ./... | grep -v vendor/)
 for dir in ${DIRs}
     do

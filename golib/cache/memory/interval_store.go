@@ -7,8 +7,8 @@ import (
 
 	lru "github.com/hashicorp/golang-lru/v2"
 	"github.com/jinzhu/copier"
+	"github.com/sadlil/system-samples/golib/cache"
 	"golang.org/x/sync/singleflight"
-	"sadlil.com/samples/golib/cache"
 )
 
 // IntervalStoreConfig captures configs for NewLRUStore
@@ -31,6 +31,7 @@ func NewIntervalStore(cfg IntervalStoreConfig) *intervalStore {
 	}
 
 	c, _ := lru.New[string, any](cfg.Capacity)
+	lru.New[string, IntervalStoreConfig](1)
 	store := &intervalStore{
 		cache:        c,
 		singleFlight: &singleflight.Group{},

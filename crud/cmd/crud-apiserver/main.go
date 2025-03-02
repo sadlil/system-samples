@@ -5,14 +5,14 @@ import (
 
 	"github.com/golang/glog"
 	assetfs "github.com/philips/go-bindata-assetfs"
+	"github.com/sadlil/system-samples/crud/apis/go/crudapiv1"
+	"github.com/sadlil/system-samples/crud/apis/openapi"
+	"github.com/sadlil/system-samples/crud/pkg/service"
+	"github.com/sadlil/system-samples/crud/pkg/storage"
+	"github.com/sadlil/system-samples/golib/application"
+	"github.com/sadlil/system-samples/golib/server/serverframework"
+	"github.com/sadlil/system-samples/golib/server/statserver"
 	"github.com/spf13/pflag"
-	"sadlil.com/samples/crud/apis/go/crudapiv1"
-	"sadlil.com/samples/crud/apis/openapi"
-	"sadlil.com/samples/crud/pkg/service"
-	"sadlil.com/samples/crud/pkg/storage"
-	"sadlil.com/samples/golib/application"
-	"sadlil.com/samples/golib/server/serverframework"
-	"sadlil.com/samples/golib/server/statserver"
 )
 
 var (

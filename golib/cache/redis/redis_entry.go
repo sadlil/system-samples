@@ -9,7 +9,7 @@ import (
 
 	"github.com/klauspost/compress/snappy"
 
-	"sadlil.com/samples/golib/cache"
+	"github.com/sadlil/system-samples/golib/cache"
 )
 
 // redisEntry is a wrap around the actual object stored.

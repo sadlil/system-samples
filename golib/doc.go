@@ -1,1 +1,1 @@
-package golib // import sadlil.com/samples/golib
+package golib // import github.com/sadlil/system-samples/golib

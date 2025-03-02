@@ -10,20 +10,7 @@ import "protoc-gen-openapiv2/options/annotations.proto";
 import "validate/validate.proto";
 
 
-option go_package = "sadlil.com/sample/crud/apis/go/crudapipb";
-// Following are options for Swagger generations.
-option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_swagger) = {
-  info: {
-    title: "Sample CRUD APIs",
-    version: "v0.1.0";
-    contact: {email: "kzirtm@gmail.com"};
-  };
-  host: "http://localhost:6999";
-  external_docs: {url: "https://github.com/sadlil/samples/tree/main/crud"}
-  schemes: HTTP;
-  consumes: "application/json";
-  produces: "application/json";
-};
+option go_package = "github.com/sadlil/system-samples/crud/apis/go/crudapipb";
 
 // TodoService service provides a set of APIs for CRUD operations on Todo objects.
 service TodoService {
@@ -144,3 +131,17 @@ message UpdateTodoResponse {
 message DeleteTodoRequest {
   string id = 1 [(validate.rules).string.min_len = 1];
 }
+
+// Following are options for Swagger generations.
+option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_swagger) = {
+  info: {
+    title: "Sample CRUD APIs",
+    version: "v0.1.0";
+    contact: {email: "kzirtm@gmail.com"};
+  };
+  host: "http://localhost:6999";
+  external_docs: {url: "https://github.com/sadlil/samples/tree/main/crud"}
+  schemes: HTTP;
+  consumes: "application/json";
+  produces: "application/json";
+};

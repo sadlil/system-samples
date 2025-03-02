@@ -4,8 +4,8 @@ import (
 	"context"
 	"time"
 
+	"github.com/sadlil/system-samples/crud/apis/go/crudapiv1"
 	"gorm.io/gorm"
-	"sadlil.com/samples/crud/apis/go/crudapiv1"
 )
 
 // Todo represents a Todo item in the database.

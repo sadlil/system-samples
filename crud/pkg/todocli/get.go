@@ -5,9 +5,9 @@ import (
 	"os"
 
 	"github.com/jedib0t/go-pretty/v6/table"
+	"github.com/sadlil/system-samples/crud/apis/go/crudapiv1"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
-	"sadlil.com/samples/crud/apis/go/crudapiv1"
 )
 
 func newGetCmd() *cobra.Command {

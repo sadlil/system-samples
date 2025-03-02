@@ -8,15 +8,15 @@ import (
 
 	"github.com/golang/glog"
 	"github.com/redis/go-redis/v9"
+	"github.com/sadlil/system-samples/crud/apis/go/crudapiv1"
+	"github.com/sadlil/system-samples/crud/pkg/storage"
+	"github.com/sadlil/system-samples/golib/cache"
+	"github.com/sadlil/system-samples/golib/cache/memory"
+	redisstore "github.com/sadlil/system-samples/golib/cache/redis"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 	"google.golang.org/protobuf/types/known/emptypb"
 	"gorm.io/gorm"
-	"sadlil.com/samples/crud/apis/go/crudapiv1"
-	"sadlil.com/samples/crud/pkg/storage"
-	"sadlil.com/samples/golib/cache"
-	"sadlil.com/samples/golib/cache/memory"
-	redisstore "sadlil.com/samples/golib/cache/redis"
 )
 
 const (

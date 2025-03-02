@@ -1,4 +1,4 @@
-module sadlil.com/samples/golib
+module github.com/sadlil/system-samples/golib
 
 go 1.20
 

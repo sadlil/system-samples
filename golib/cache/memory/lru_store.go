@@ -6,8 +6,8 @@ import (
 
 	lru "github.com/hashicorp/golang-lru/v2"
 	"github.com/jinzhu/copier"
+	"github.com/sadlil/system-samples/golib/cache"
 	"golang.org/x/sync/singleflight"
-	"sadlil.com/samples/golib/cache"
 )
 
 // LRUStoreConfig captures configs for NewLRUStore

@@ -3,8 +3,8 @@ package clients
 import (
 	"context"
 
+	"github.com/sadlil/system-samples/crud/apis/go/crudapiv1"
 	"google.golang.org/protobuf/types/known/emptypb"
-	"sadlil.com/samples/crud/apis/go/crudapiv1"
 )
 
 // TodoServiceClient is the client API for TodoService service.

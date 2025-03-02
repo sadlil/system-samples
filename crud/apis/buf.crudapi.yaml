@@ -4,7 +4,7 @@ managed:
   java_multiple_files: true
   optimize_for: CODE_SIZE
   go_package_prefix:
-    default: sadlil.com/samples/crud/apis/go/crudapipb
+    default: github.com/sadlil/system-samples/crud/apis/go/crudapipb
     except:
       - buf.build/googleapis/googleapis
       - buf.build/grpc-ecosystem/grpc-gateway

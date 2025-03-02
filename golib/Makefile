@@ -20,7 +20,9 @@ build:
 
 .PHONY: fmt
 fmt: gen
-	@go fmt sadlil.com/samples/golib/application/... sadlil.com/samples/golib/server/... sadlil.com/samples/golib/cache/...
+	@go fmt github.com/sadlil/system-samples/golib/application/... \
+	  github.com/sadlil/system-samples/golib/server/... \
+		github.com/sadlil/system-samples/golib/cache/...
 
 lint:
 	@golangci-lint run --out-format code-climate | \

@@ -8,17 +8,15 @@ import (
 
 	"github.com/golang/glog"
 	"github.com/prometheus/client_golang/prometheus"
-	"sadlil.com/samples/golib/application"
-	"sadlil.com/samples/golib/server/statserver"
+	"github.com/sadlil/system-samples/golib/application"
+	"github.com/sadlil/system-samples/golib/server/statserver"
 )
 
-var (
-	counterMetric = prometheus.NewCounter(prometheus.CounterOpts{
-		Namespace: "samples",
-		Subsystem: "periscope",
-		Name:      "service_counter",
-	})
-)
+var counterMetric = prometheus.NewCounter(prometheus.CounterOpts{
+	Namespace: "samples",
+	Subsystem: "periscope",
+	Name:      "service_counter",
+})
 
 func init() {
 	prometheus.MustRegister(counterMetric)
@@ -62,5 +60,4 @@ func main() {
 		srv.Stop(ctx)
 		cancel()
 	})
-
 }

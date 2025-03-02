@@ -27,7 +27,7 @@ dep:
 
 # Build related commands
 build.docker:
-	docker build -t sadlil.com/samples/periscope:$(VERSION) -f Dockerfile ./..
+	docker build -t github.com/sadlil/system-samples/periscope:$(VERSION) -f Dockerfile ./..
 
 clean:
 	go clean -i -r -x

@@ -209,12 +209,7 @@
             "in": "body",
             "required": true,
             "schema": {
-              "type": "object",
-              "properties": {
-                "payload": {
-                  "$ref": "#/definitions/v1Todo"
-                }
-              }
+              "$ref": "#/definitions/TodoServiceUpdateTodoBody"
             }
           }
         ],
@@ -225,6 +220,14 @@
     }
   },
   "definitions": {
+    "TodoServiceUpdateTodoBody": {
+      "type": "object",
+      "properties": {
+        "payload": {
+          "$ref": "#/definitions/v1Todo"
+        }
+      }
+    },
     "protobufAny": {
       "type": "object",
       "properties": {

@@ -1,13 +1,13 @@
-module sadlil.com/samples/periscope
+module github.com/sadlil/system-samples/periscope
 
 go 1.20
 
-replace sadlil.com/samples/golib => ../golib
+replace github.com/sadlil/system-samples/golib => ../golib
 
 require (
 	github.com/golang/glog v1.0.0
 	github.com/prometheus/client_golang v1.14.0
-	sadlil.com/samples/golib v0.0.0-00010101000000-000000000000
+	github.com/sadlil/system-samples/golib v0.0.0-00010101000000-000000000000
 )
 
 require (

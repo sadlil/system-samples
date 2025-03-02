@@ -4,9 +4,9 @@ import (
 	"fmt"
 	"os"
 
+	"github.com/sadlil/system-samples/crud/apis/go/crudapiv1"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
-	"sadlil.com/samples/crud/apis/go/crudapiv1"
 )
 
 func newDeleteCmd() *cobra.Command {

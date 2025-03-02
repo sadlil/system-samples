@@ -27,7 +27,7 @@ resource "kubernetes_deployment" "periscope_service_deployment" {
       }
       spec {
         container {
-          image = "sadlil.com/samples/periscope:${var.periscope_service_image_tag}"
+          image = "github.com/sadlil/system-samples/periscope:${var.periscope_service_image_tag}"
           name  = "periscope-service"
           port {
             name           = "metrics"

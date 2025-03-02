@@ -39,7 +39,7 @@ The above command will create a `crud-server` and `todocli` in GOPATH. That can 
     make build.docker VERSION=v0.1
     ```
 
-The above command will create a docker image with tag `sadlil.com/samples/crud:${VERSION}`.
+The above command will create a docker image with tag `github.com/sadlil/system-samples/crud:${VERSION}`.
 
 - Run tests
 

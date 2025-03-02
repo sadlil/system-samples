@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
         - name: todo-serive
-          image: sadlil.com/samples/crud:v0.1
+          image: github.com/sadlil/system-samples/crud:v0.1
           ports:
             - name: grpc
               containerPort: 6001

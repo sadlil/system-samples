@@ -3,7 +3,7 @@
 
 DIRs := $(shell (go list ./... | grep -v /vendor/))
 PROJECT := ssh-proxy
-PROJECT_MODULE := 'sadlil.com/samples/sshproxy'
+PROJECT_MODULE := 'github.com/sadlil/system-samples/sshproxy'
 
 
 .PHONY: all

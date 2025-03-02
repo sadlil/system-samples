@@ -1,3 +1,3 @@
-module sadlil.com/samples/sshproxy
+module github.com/sadlil/system-samples/sshproxy
 
 go 1.17

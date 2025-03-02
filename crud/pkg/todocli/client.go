@@ -3,11 +3,11 @@ package todocli
 import (
 	"fmt"
 
+	"github.com/sadlil/system-samples/crud/pkg/clients"
+	"github.com/sadlil/system-samples/crud/pkg/clients/grpctransport"
+	"github.com/sadlil/system-samples/crud/pkg/clients/httptransport"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials/insecure"
-	"sadlil.com/samples/crud/pkg/clients"
-	"sadlil.com/samples/crud/pkg/clients/grpctransport"
-	"sadlil.com/samples/crud/pkg/clients/httptransport"
 )
 
 func newTodoServiceClient(transport, addr string) (clients.TodoServiceClient, error) {

@@ -43,7 +43,7 @@ gen-proto-go:
 
 # Build related commands
 build.docker:
-	docker build -t sadlil.com/samples/crud:$(VERSION) -f hack/docker/Dockerfile ./..
+	docker build -t github.com/sadlil/system-samples/crud:$(VERSION) -f hack/docker/Dockerfile ./..
 
 TEST_TIMEOUT = 60
 TEST_PKGS ?= $(shell (go list ./... | grep -v /vendor/))

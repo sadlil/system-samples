@@ -6,10 +6,10 @@ import (
 	"time"
 
 	"github.com/golang/glog"
+	"github.com/sadlil/system-samples/crud/apis/go/crudapiv1"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
 	"google.golang.org/protobuf/types/known/durationpb"
-	"sadlil.com/samples/crud/apis/go/crudapiv1"
 )
 
 func newUpdateCmd() *cobra.Command {

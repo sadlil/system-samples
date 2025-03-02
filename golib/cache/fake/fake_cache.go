@@ -4,7 +4,7 @@ import (
 	"context"
 
 	"github.com/jinzhu/copier"
-	"sadlil.com/samples/golib/cache"
+	"github.com/sadlil/system-samples/golib/cache"
 )
 
 // FakeStore is an implementation of the cache.Store interface, used in testing.
