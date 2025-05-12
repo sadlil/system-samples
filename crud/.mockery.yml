@@ -1,0 +1,13 @@
+formatter: goimports
+log-level: info
+recursive: false
+template: testify
+packages:
+  github.com/sadlil/system-samples/crud/pkg/storage/models:
+    interfaces:
+      TodoQuery:
+        configs:
+          - filename: "todo_mock_test.go"
+            structname: "MockTodoQuery"
+            dir: "pkg/storage/mockstorage"
+            pkgname: mockstorage

@@ -36,9 +36,8 @@ func (Todo) TableName() string {
 	return "todo"
 }
 
-// TodoQuery is an interface that defines the methods required to interact with a Todo model in a CRUD API.
-//
-//go:generate mockery --name=TodoQuery --filename=todo_mock.go --outpkg=mockstorage --output=../mockstorage --quiet --testonly
+// TodoQuery is an interface that defines the methods required to interact with
+// a Todo model in a CRUD API.
 type TodoQuery interface {
 	// Create creates a new Todo record in the database and returns the created Todo record.
 	// It takes a context and a pointer to a Todo object to be created.

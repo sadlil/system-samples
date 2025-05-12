@@ -1,6 +1,8 @@
 package mockstorage
 
 import (
+	"testing"
+
 	models "github.com/sadlil/system-samples/crud/pkg/storage/models"
 	mock "github.com/stretchr/testify/mock"
 )
@@ -11,8 +13,8 @@ type Store struct {
 }
 
 // Todo provides a mock function with given fields:
-func (_m *Store) Todo() models.TodoQuery {
-	return new(TodoQuery)
+func (_m *Store) Todo(t *testing.T) models.TodoQuery {
+	return NewMockTodoQuery(t)
 }
 
 type mockConstructorTestingT interface {

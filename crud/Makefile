@@ -40,6 +40,7 @@ dep-proto:
 
 gen-proto-go:
 	buf generate apis/ --template=apis/buf.crudapi.yaml
+	mockery
 
 # Build related commands
 build.docker:

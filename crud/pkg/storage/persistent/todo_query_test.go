@@ -27,7 +27,7 @@ func TestPersistentStoreCreate(t *testing.T) {
 		Name:        "TODO",
 		Description: "Hello Store!",
 		Priority:    "P1",
-		Status:      crudapiv1.TodoStatus(crudapiv1.TodoStatus_value["PENDING"]),
+		Status:      crudapiv1.TodoStatus_TODO_STATUS_PENDING,
 		Deadline:    durationpb.New(time.Hour),
 	}
 	resp, err := store.Create(context.TODO(), in)
